@@ -1,0 +1,34 @@
+# Environment and Secrets
+.env
+.env.local
+*.key
+*.pem
+
+# Agent Transient Sandbox & Logs (Code testing grounds)
+.tmp/
+*.log
+execution/error_footprint.log
+
+# Python Cache & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+venv/
+.venv/
+
+# Node / Frontend Artifacts
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# OS & Cloud Storage Sync Metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+*.gdoc
+*.gsheet
