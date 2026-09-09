@@ -16,11 +16,12 @@
   - [x] 1.5 Verify with unit tests against real Boeing, NXP, and Nationwide postings
 
 
-- [ ] **Module 2: Transparent Weighted Skill Scoring & Deduplication**
-  - [ ] 2.1 In `qualification_matcher.py`, implement 2-tier weighted scoring (Core 1.5x, Secondary 0.5x)
-  - [ ] 2.2 Deduplicate substring matches (e.g. matching "data analytics" suppresses "analytics")
-  - [ ] 2.3 Set role classification precedence to favor AI/ML & GenAI over generic analytics
-  - [ ] 2.4 Verify scores against Neftali's candidate profile (`PERSONA_AI_ENGINEER_INTERN_DFW.md`)
+- [x] **Module 2: Transparent Weighted Skill Scoring & Deduplication**
+  - [x] 2.1 In `qualification_matcher.py`, implement 2-tier weighted scoring (Core 1.5x, Secondary 0.5x)
+  - [x] 2.2 Deduplicate substring matches (e.g. matching "data analytics" suppresses "analytics")
+  - [x] 2.3 Set role classification precedence to favor AI/ML & GenAI over generic analytics
+  - [x] 2.4 Verify scores against Neftali's candidate profile (`PERSONA_AI_ENGINEER_INTERN_DFW.md`)
+
 
 - [ ] **Module 3: Fast Concurrent Live Link Validator**
   - [ ] 3.1 Build `execution/scrapers/link_validator.py` with 5 worker threads (`ThreadPoolExecutor`)

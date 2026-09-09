@@ -1,67 +1,71 @@
-"""Candidate qualification matching engine grounded strictly in Neftali's resume."""
+"""
+Candidate qualification matching engine grounded strictly in Neftali's resume.
+Designed for maximum simplicity, transparency, and accuracy (Karpathy simplicity).
+"""
 
-from typing import Tuple, List, Set
 import re
+from typing import Tuple, List, Set
 
 
-# Grounded qualifications from Neftali's verified resume (Copy of Resume.pdf)
-CANDIDATE_SKILLS = {
-    "ai_ml": {
-        "artificial intelligence", "ai", "machine learning", "ml", "rag", 
-        "retrieval-augmented generation", "vector database", "vector search",
-        "agentic ai", "llm", "large language models", "prompt engineering",
-        "generative ai", "genai", "deep learning", "neural networks"
-    },
-    "languages": {
-        "python", "typescript", "javascript", "sql", "java", "c++", "html", "css"
-    },
-    "frameworks_web": {
-        "react", "fastapi", "drizzle orm", "rest api", "restful api", "rest",
-        "full-stack", "frontend", "backend", "web development"
-    },
-    "cloud_devops": {
-        "docker", "aws", "modal", "git", "github", "linux", "vercel", "microservices"
-    },
-    "data_analytics": {
-        "data analyst", "data analytics", "data engineering", "gis", "sql queries",
-        "database", "postgresql", "data modeling", "analytics", "business intelligence"
-    },
-    "domains": {
-        "smart cities", "real estate analytics", "property valuation", "municipal data"
-    }
+# Core technical superpowers (Weight 1.5x / 15 points each)
+CORE_PILLARS: Set[str] = {
+    "python", "rag", "retrieval-augmented generation", "fastapi", "sql", "c++",
+    "docker", "llm", "large language models", "vector database", "vector search",
+    "agentic ai", "machine learning", "deep learning", "neural networks",
+    "generative ai", "genai", "typescript", "microservices", "aws", "modal"
 }
 
-ALL_CANDIDATE_KEYWORDS = set()
-for sub in CANDIDATE_SKILLS.values():
-    ALL_CANDIDATE_KEYWORDS.update(sub)
+# Secondary tools & foundations (Weight 0.5x / 5 points each)
+SECONDARY_TOOLS: Set[str] = {
+    "git", "github", "linux", "react", "frontend", "backend", "full-stack",
+    "rest api", "restful api", "database", "postgresql", "data analytics",
+    "analytics", "business intelligence", "smart cities", "gis", "data modeling"
+}
+
+# Combine and pre-sort by length descending so longer phrases match first
+ALL_SKILLS_ORDERED = sorted(list(CORE_PILLARS | SECONDARY_TOOLS), key=len, reverse=True)
 
 
 def classify_role_category(title: str) -> str:
-    """Categorizes the position based on title keywords."""
+    """
+    Categorizes the position based on title keywords.
+    Prioritizes compound AI/ML roles before generic analytics roots.
+    """
     t = title.lower()
-    if any(k in t for k in ["ai", "machine learning", "ml", "deep learning", "nlp", "computer vision"]):
+    
+    # 1. AI/ML & GenAI (Highest Priority)
+    if any(k in t for k in ["generative ai", "genai", "artificial intelligence", "machine learning", "deep learning", "neural network", "ai ", "ai-", "ml "]):
         return "AI/ML & GenAI"
-    elif any(k in t for k in ["data analyst", "analytics", "business analyst", "bi intern", "data science"]):
+    if t.endswith("ai") or t.endswith("ml") or "ai/ml" in t:
+        return "AI/ML & GenAI"
+        
+    # 2. Data & Analytics
+    if any(k in t for k in ["data analyst", "data analytics", "business analyst", "bi intern", "data science"]):
         return "Data Analyst & Analytics"
-    elif any(k in t for k in ["data engineer", "data platform", "database"]):
+        
+    # 3. Data Engineering
+    if any(k in t for k in ["data engineer", "data platform", "database"]):
         return "Data Engineering"
-    elif any(k in t for k in ["gis", "smart city", "geospatial", "urban"]):
+        
+    # 4. GIS & Smart Cities
+    if any(k in t for k in ["gis", "smart city", "geospatial", "urban"]):
         return "GIS & Smart Cities"
-    elif any(k in t for k in ["qa", "sdet", "test automation"]):
-        return "SDET & Automation"
+        
+    # 5. Default to Software Engineering
     return "Software Engineering (Fullstack/Backend)"
 
 
 def evaluate_qualification_match(title: str, description: str = "") -> Tuple[float, List[str], bool]:
     """
-    Evaluates whether the candidate qualifies for the role.
-    Returns: (match_score, list_of_matching_skills, qualifies_boolean)
+    Evaluates whether the candidate qualifies for the role using simple weighted scoring.
+    - Core Skills: +0.15 points
+    - Secondary Tools: +0.05 points
+    - Substring duplicates (e.g. 'analytics' inside 'data analytics') are automatically suppressed.
     """
     text = f"{title} {description}".lower()
-    matches = []
+    title_lower = title.lower()
     
     # Check title alignment
-    title_lower = title.lower()
     is_technical = any(k in title_lower for k in [
         "software", "engineer", "developer", "ai", "machine learning", "data", 
         "analyst", "full stack", "backend", "frontend", "systems", "cloud", "technology"
@@ -75,16 +79,30 @@ def evaluate_qualification_match(title: str, description: str = "") -> Tuple[flo
         return 0.0, [], False
     if any(k in title_lower for k in ["sales", "account executive", "marketing", "recruiter", "nurse", "paralegal"]):
         return 0.0, [], False
+    if not (is_technical and is_intern_or_early):
+        return 0.0, [], False
 
-    # Collect matched skills
-    for skill in ALL_CANDIDATE_KEYWORDS:
-        # Match whole word or exact token
+    matched_skills: List[str] = []
+    
+    # Match skills from longest to shortest, avoiding duplicate sub-tokens
+    for skill in ALL_SKILLS_ORDERED:
         pattern = r"\b" + re.escape(skill) + r"\b"
         if re.search(pattern, text):
-            matches.append(skill)
+            # If this skill is already a sub-part of a longer matched phrase, skip it!
+            # e.g., if 'data analytics' is already matched, do not add 'analytics'
+            if any(skill in longer_skill for longer_skill in matched_skills if skill != longer_skill):
+                continue
+            matched_skills.append(skill)
             
-    # Calculate score based on breadth of match
-    score = min(1.0, 0.4 + (len(matches) * 0.08)) if (is_technical and is_intern_or_early) else 0.0
-    qualifies = (score >= 0.5)
+    # Calculate simple score: Base 0.40 + weighted points
+    score = 0.40
+    for skill in matched_skills:
+        if skill in CORE_PILLARS:
+            score += 0.15
+        else:
+            score += 0.05
+            
+    score = min(1.0, round(score, 2))
+    qualifies = (score >= 0.50)
     
-    return round(score, 2), sorted(list(set(matches))), qualifies
+    return score, sorted(matched_skills), qualifies
