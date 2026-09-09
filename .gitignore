@@ -3,6 +3,8 @@
 .env.local
 *.key
 *.pem
+*.db
+career.db
 
 # Agent Transient Sandbox & Logs (Code testing grounds)
 .tmp/

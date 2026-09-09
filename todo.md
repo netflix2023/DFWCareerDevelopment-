@@ -1,77 +1,54 @@
-# September Surge Fast-Track: Agile Task Board (`todo.md`)
+# Career Surge Engine: Modular Agile Roadmap (`todo.md`)
 
-> **Hierarchy**: `subtask` -> `task` -> `section` -> `folder` -> `feature-branch`  
-> **Rule**: Work on **ONE and only ONE** active task at a time (`[/]`).
-
----
-
-## Sprint 0: Architecture & Environment Bootstrap
-
-- [x] **Task 0.1: Master Reference & Instructions Definition**
-  - [x] Author comprehensive, production-ready `AGENTS.md` in `Career/`
-  - [x] Mirror instructions to `GEMINI.md` and `CLAUDE.md`
-  - [x] Initialize Agile `todo.md` and living `progress_log.md`
-- [ ] **Task 0.2: Project Directory Scaffold & Directives Setup**
-  - [ ] Scaffold folders: `directives/mvps/`, `directives/user_stories/`, `execution/scrapers/`, `execution/parsers/`, `execution/tailor/`, `execution/tests/`, `output/scraped_jobs/`, `output/clean_csvs/`, `output/tailored_resumes/`, `.tmp/scratch/`
-  - [ ] Create `.env.example` with ATS API rate limits and User-Agent headers
-  - [ ] Initialize `directives/company_tokens.json` with target Greenhouse/Lever/Ashby companies (Stripe, Databricks, Palantir, Ramp, Figma, Cloudflare, etc.)
-  - [ ] Create baseline candidate profile schema in `directives/user_stories/candidate_profile.json`
-  - [ ] Author `directives/resume_guide_2.0_spec.md` with What-How-Result rules and 75% target matching criteria
+> **Hierarchy**: `subtask` -> `task` -> `module` -> `feature-branch`  
+> **PM/SWE Contract**: Neftali = Product Manager (The What) | Agent = Software Engineer (The How)  
+> **Strict Gate**: Draft plan -> PM Approves -> Build & Verify Module-by-Module -> Git Checkpoint.
 
 ---
 
-## Sprint 1: ATS Public Ingestion Pipeline (TDD)
+## Active Sprint: Data Quality, Scoring Hardening & Link Validation
 
-- [ ] **Task 1.1: Base Scraper & Rate-Limiting Engine (`execution/scrapers/base_scraper.py`)**
-  - [ ] Step 1 (Red): Write failing unit test for jittered backoff, retry handling, and header rotation
-  - [ ] Step 2 (Green): Implement lightweight `BaseScraper` class with Canary D rate-limit guard
-  - [ ] Step 3 (Verify): Pass 100% of base scraper tests
-- [ ] **Task 1.2: Greenhouse Public Board Client (`execution/scrapers/greenhouse_client.py`)**
-  - [ ] Step 1 (Red): Write failing test with mocked Greenhouse JSON payload for internship/entry-level filter
-  - [ ] Step 2 (Green): Implement `GreenhouseClient` to query `/v1/boards/{company}/jobs?content=true`
-  - [ ] Step 3 (Verify): Test against real and mocked payloads; assert accurate role, department, and description extraction
-- [ ] **Task 1.3: Lever Public Postings Client (`execution/scrapers/lever_client.py`)**
-  - [ ] Step 1 (Red): Write failing test for Lever JSON payload parsing
-  - [ ] Step 2 (Green): Implement `LeverClient` querying `/v0/postings/{company}?mode=json`
-  - [ ] Step 3 (Verify): Assert correct extraction and < 48-hour age filter
-- [ ] **Task 1.4: Ashby JSON Job Board Client (`execution/scrapers/ashby_client.py`)**
-  - [ ] Step 1 (Red): Write failing test for Ashby POST API response
-  - [ ] Step 2 (Green): Implement `AshbyClient`
-  - [ ] Step 3 (Verify): Pass Ashby test suite
-- [ ] **Task 1.5: LinkedIn Guest Recent Postings Scraper (`execution/scrapers/linkedin_guest.py`)**
-  - [ ] Step 1 (Red): Write failing test for guest search HTML card parser with `f_TPR=r86400`
-  - [ ] Step 2 (Green): Implement lightweight guest endpoint parser with BeautifulSoup
-  - [ ] Step 3 (Verify): Verify fallback behavior and 0 headless browser dependencies
+- [x] **Module 1: URL Normalization, Subdomain Fallback & Workday Requisition Deduplication**
+  - [x] 1.1 In `url_utils.py`, add company name resolution from domain subdomain when name is `↳` or empty
+  - [x] 1.2 In `url_utils.py`, extract Workday requisition ID regex (`r"_([A-Z]{0,2}\d+)(?:-\d+)?"`)
+  - [x] 1.3 In `models.py` & `pipeline.py`, hash `f"{company}::{requisition_id}"` for Workday roles and store secondary links in `alternate_urls`
+  - [x] 1.4 Sanitize multi-location strings to clean localized metro labels (e.g. `"Dallas, TX (Multi-Location)"`)
+  - [x] 1.5 Verify with unit tests against real Boeing, NXP, and Nationwide postings
 
----
 
-## Sprint 2: Job Description Parsing & 75% Keyword Matrix (TDD)
+- [ ] **Module 2: Transparent Weighted Skill Scoring & Deduplication**
+  - [ ] 2.1 In `qualification_matcher.py`, implement 2-tier weighted scoring (Core 1.5x, Secondary 0.5x)
+  - [ ] 2.2 Deduplicate substring matches (e.g. matching "data analytics" suppresses "analytics")
+  - [ ] 2.3 Set role classification precedence to favor AI/ML & GenAI over generic analytics
+  - [ ] 2.4 Verify scores against Neftali's candidate profile (`PERSONA_AI_ENGINEER_INTERN_DFW.md`)
 
-- [ ] **Task 2.1: JD Qualification & Tech Stack Extractor (`execution/parsers/jd_parser.py`)**
-  - [ ] Step 1 (Red): Write failing tests against golden standard SWE intern and Data analyst JDs
-  - [ ] Step 2 (Green): Implement regex/NLP token extractor for languages, frameworks, databases, and graduation year criteria
-  - [ ] Step 3 (Verify): Verify accurate role level classification (< 2 years experience vs senior)
-- [ ] **Task 2.2: Semantic Keyword Matcher & Gap Analyzer (`execution/parsers/keyword_matcher.py`)**
-  - [ ] Step 1 (Red): Write tests calculating keyword overlap against candidate profile
-  - [ ] Step 2 (Green): Implement 75% keyword density scoring algorithm (Jaccard + n-gram overlap)
-  - [ ] Step 3 (Verify): Verify Canary E (Truth Guard) flags missing skills without hallucinating
+- [ ] **Module 3: Fast Concurrent Live Link Validator**
+  - [ ] 3.1 Build `execution/scrapers/link_validator.py` with 5 worker threads (`ThreadPoolExecutor`)
+  - [ ] 3.2 Implement HTTP HEAD check with GET fallback (5s timeout, 1 retry with exponential backoff)
+  - [ ] 3.3 Filter out HTTP 404s, 410s, and closed requisition redirects
+  - [ ] 3.4 Verify live validation speeds on existing 27 harvested jobs
 
----
+- [ ] **Module 4: SQLite Database & Job Market Telemetry Tracker**
+  - [ ] 4.1 Create `career.db` schema: `jobs` (UNIQUE `job_id`), `job_telemetry` (demand stats, post times, close times), `applications`
+  - [ ] 4.2 Record job telemetry analytics: role category distribution, posting times, days active
+  - [ ] 4.3 Add warning badge for postings with > 100 applicants (⚠️ `>100 Applicants`)
+  - [ ] 4.4 Exclude postings older than 7 days from daily dispatches while preserving historical DB rows
 
-## Sprint 3: Resume Tailoring Engine (Resume Guide 2.0)
+- [ ] **Module 5: Job Discovery Ingestion (LinkedIn Guest & Indeed RSS)**
+  - [ ] 5.1 Build `execution/scrapers/linkedin_guest.py` capped at 25 results with applicant count parsing
+  - [ ] 5.2 Build `execution/scrapers/indeed_rss.py` for date-sorted RSS feeds and Google Jobs endpoints
+  - [ ] 5.3 Keep `JobSpy` isolated as an optional CLI flag (`--enable-jobspy`)
 
-- [ ] **Task 3.1: Past-Tense What-How-Result Bullet Formatter (`execution/tailor/bullet_formatter.py`)**
-  - [ ] Step 1 (Red): Write tests enforcing past-tense action verbs, technology integration, and metric validation
-  - [ ] Step 2 (Green): Implement bullet transformer aligning candidate project experiences to target JD keywords
-  - [ ] Step 3 (Verify): Verify single-column plaintext/markdown conformity
-- [ ] **Task 3.2: End-to-End Resume Markdown Generator (`execution/tailor/resume_generator.py`)**
-  - [ ] Step 1 (Red): Write test asserting generated 1-page resume contains correct contact, education, skills, projects, and experience
-  - [ ] Step 2 (Green): Implement Jinja2 Markdown and plaintext template engine
-  - [ ] Step 3 (Verify): Export sample tailored resume to `output/tailored_resumes/`
+- [ ] **Module 6: Daily Email Digest & Alerts**
+  - [ ] 6.1 Build `execution/notifier/email_dispatcher.py` using Resend API (with local SMTP fallback)
+  - [ ] 6.2 Format clean summary table of Top 10 positions with 1-click apply links and score badges
+  - [ ] 6.3 Attach link/reference to generated daily CSV
 
----
+- [ ] **Module 7: Multi-Persona Resume Tailoring Engine (Experiment 2)**
+  - [ ] 7.1 Map job roles to foundational personas (`AI/ML`, `Software Engineering`, `Data Platform`)
+  - [ ] 7.2 Implement verified bullet point selector and reorderer targeting matching skills
+  - [ ] 7.3 Export top 3 tailored resumes in clean Markdown (`.md`) format
 
-## Sprint 4: Sub-Agent Quality Review & Delivery
-
-- [ ] **Task 4.1: Automated Sub-Agent Review & Truth Guard Audit Script**
-- [ ] **Task 4.2: Project Completion & `LEARNING.md` Documentation**
+- [ ] **Module 8: Cloud Automation & GitHub Sync**
+  - [ ] 8.1 Initialize GitHub Actions workflow `.github/workflows/daily_pipeline.yml` (7:00 AM CDT cron)
+  - [ ] 8.2 Push cleanly to private repository `career-surge-engine` with PM approval

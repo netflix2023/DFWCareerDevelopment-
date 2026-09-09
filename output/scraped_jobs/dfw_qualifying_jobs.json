@@ -1,12 +1,12 @@
 [
   {
-    "job_id": "c4bc17e278f05364",
+    "job_id": "947a255766d4e406",
     "company": "Copart",
     "title": "AI Engineer Intern",
     "ats_source": "workday",
     "apply_url": "https://copart.wd1.myworkdayjobs.com/Copart_Careers/job/Dallas-TX/AI-Engineer-Intern_JR110948",
     "location": "Dallas, TX",
-    "discovered_at": "2026-09-09T00:26:47.879901",
+    "discovered_at": "2026-09-09T00:54:20.565110",
     "role_category": "AI/ML & GenAI",
     "match_score": 0.96,
     "matching_skills": [
@@ -20,16 +20,18 @@
     ],
     "age_days": 1,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": "JR110948",
+    "alternate_urls": []
   },
   {
-    "job_id": "d472ec44bd978552",
+    "job_id": "7d1ee93fb3b5d39f",
     "company": "Copart",
     "title": "Software Engineering Intern - Frontend / Fullstack",
     "ats_source": "workday",
     "apply_url": "https://copart.wd1.myworkdayjobs.com/Copart_Careers/job/Dallas-TX/Software-Engineering-Intern_JR111173",
     "location": "Dallas, TX",
-    "discovered_at": "2026-09-09T00:26:47.880313",
+    "discovered_at": "2026-09-09T00:54:20.566432",
     "role_category": "Software Engineering (Fullstack/Backend)",
     "match_score": 0.88,
     "matching_skills": [
@@ -42,16 +44,18 @@
     ],
     "age_days": 1,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": "JR111173",
+    "alternate_urls": []
   },
   {
-    "job_id": "a4210587085fe647",
+    "job_id": "c1d7f49ccc85fba9",
     "company": "Copart",
     "title": "Data Engineering Intern",
     "ats_source": "workday",
     "apply_url": "https://copart.wd1.myworkdayjobs.com/Copart_Careers/job/Dallas-TX/Data-Engineering-Intern_JR110617",
     "location": "Dallas, TX",
-    "discovered_at": "2026-09-09T00:26:47.880640",
+    "discovered_at": "2026-09-09T00:54:20.568141",
     "role_category": "Data Engineering",
     "match_score": 0.88,
     "matching_skills": [
@@ -64,7 +68,9 @@
     ],
     "age_days": 2,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": "JR110617",
+    "alternate_urls": []
   },
   {
     "job_id": "26b582b0545a5253",
@@ -73,7 +79,7 @@
     "ats_source": "other",
     "apply_url": "https://www.att.jobs/job/dallas/technology-development-program-intern-data/117/tdp-data-2027",
     "location": "Dallas, TX",
-    "discovered_at": "2026-09-09T00:26:47.884289",
+    "discovered_at": "2026-09-09T00:54:20.573445",
     "role_category": "Data Analyst & Analytics",
     "match_score": 0.88,
     "matching_skills": [
@@ -86,7 +92,9 @@
     ],
     "age_days": 2,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": null,
+    "alternate_urls": []
   },
   {
     "job_id": "87bc9e43a52f09c0",
@@ -95,7 +103,7 @@
     "ats_source": "other",
     "apply_url": "https://www.jpmorganchase.com/careers/programs/data-analytics-program?loc=plano-tx",
     "location": "Plano, TX",
-    "discovered_at": "2026-09-09T00:26:47.886074",
+    "discovered_at": "2026-09-09T00:54:20.576382",
     "role_category": "AI/ML & GenAI",
     "match_score": 0.88,
     "matching_skills": [
@@ -108,16 +116,18 @@
     ],
     "age_days": 2,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": null,
+    "alternate_urls": []
   },
   {
     "job_id": "c37db1021801ed4c",
     "company": "Texas Instruments",
     "title": "Pricing & Commercial Data Analytics Intern",
-    "ats_source": "other",
+    "ats_source": "icims",
     "apply_url": "https://careers.ti.com/job/dallas/pricing-intern-data-analytics/123/pricing-analyst",
     "location": "Dallas, TX",
-    "discovered_at": "2026-09-09T00:26:47.882120",
+    "discovered_at": "2026-09-09T00:54:20.570328",
     "role_category": "Data Analyst & Analytics",
     "match_score": 0.88,
     "matching_skills": [
@@ -130,7 +140,9 @@
     ],
     "age_days": 4,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": null,
+    "alternate_urls": []
   },
   {
     "job_id": "08a3f3d160de3949",
@@ -139,7 +151,7 @@
     "ats_source": "other",
     "apply_url": "https://www.att.jobs/job/dallas/technology-development-program-intern-software/117/tdp-swe-2027",
     "location": "Dallas, TX",
-    "discovered_at": "2026-09-09T00:26:47.883916",
+    "discovered_at": "2026-09-09T00:54:20.572984",
     "role_category": "Software Engineering (Fullstack/Backend)",
     "match_score": 0.8,
     "matching_skills": [
@@ -151,7 +163,9 @@
     ],
     "age_days": 2,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": null,
+    "alternate_urls": []
   },
   {
     "job_id": "c9de82aca9b42b39",
@@ -160,7 +174,7 @@
     "ats_source": "other",
     "apply_url": "https://www.jpmorganchase.com/careers/programs/software-engineer-program?loc=plano-tx",
     "location": "Plano, TX",
-    "discovered_at": "2026-09-09T00:26:47.885715",
+    "discovered_at": "2026-09-09T00:54:20.575933",
     "role_category": "Software Engineering (Fullstack/Backend)",
     "match_score": 0.8,
     "matching_skills": [
@@ -172,16 +186,18 @@
     ],
     "age_days": 2,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": null,
+    "alternate_urls": []
   },
   {
-    "job_id": "77bede900900bd52",
+    "job_id": "fb83a1cdac40a2d7",
     "company": "Riveron",
     "title": "Business Performance Improvement - Data & Analytics Intern",
     "ats_source": "ashby",
     "apply_url": "https://jobs.ashbyhq.com/riveron/98777859-1566-4e10-bcdf-dc555db8705e",
     "location": "Dallas, TX",
-    "discovered_at": "2026-09-09T00:26:47.884976",
+    "discovered_at": "2026-09-09T00:54:20.574574",
     "role_category": "Data Analyst & Analytics",
     "match_score": 0.8,
     "matching_skills": [
@@ -193,16 +209,18 @@
     ],
     "age_days": 3,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": "98777859-1566-4e10-bcdf-dc555db8705e",
+    "alternate_urls": []
   },
   {
-    "job_id": "b8fb02e9539fe8bc",
+    "job_id": "74cbee4edf49f63b",
     "company": "Copart",
     "title": "Technology Product Analyst Intern",
     "ats_source": "workday",
     "apply_url": "https://copart.wd1.myworkdayjobs.com/Copart_Careers/job/Dallas-TX/Technology-Product-Analyst-Intern_JR110789",
     "location": "Dallas, TX",
-    "discovered_at": "2026-09-09T00:26:47.881005",
+    "discovered_at": "2026-09-09T00:54:20.568678",
     "role_category": "Software Engineering (Fullstack/Backend)",
     "match_score": 0.72,
     "matching_skills": [
@@ -213,16 +231,18 @@
     ],
     "age_days": 2,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": "JR110789",
+    "alternate_urls": []
   },
   {
-    "job_id": "29970c9af7716cec",
+    "job_id": "028c28faf087b3d3",
     "company": "Fannie Mae",
     "title": "Technology Program Intern - Software & AI Track",
     "ats_source": "workday",
     "apply_url": "https://fanniemae.wd1.myworkdayjobs.com/fanniemaecareers/job/Plano-TX/Technology-Program-Intern_59416",
     "location": "Plano, TX",
-    "discovered_at": "2026-09-09T00:26:47.881392",
+    "discovered_at": "2026-09-09T00:54:20.569122",
     "role_category": "AI/ML & GenAI",
     "match_score": 0.72,
     "matching_skills": [
@@ -233,16 +253,18 @@
     ],
     "age_days": 3,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": "59416",
+    "alternate_urls": []
   },
   {
     "job_id": "3feaac437686b60b",
     "company": "Texas Instruments",
     "title": "Systems Engineering Intern - Machine Learning Expert",
-    "ats_source": "other",
+    "ats_source": "icims",
     "apply_url": "https://careers.ti.com/job/dallas/systems-engineering-intern-machine-learning/123/ml-expert",
     "location": "Dallas, TX",
-    "discovered_at": "2026-09-09T00:26:47.881772",
+    "discovered_at": "2026-09-09T00:54:20.569912",
     "role_category": "AI/ML & GenAI",
     "match_score": 0.72,
     "matching_skills": [
@@ -253,16 +275,18 @@
     ],
     "age_days": 3,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": null,
+    "alternate_urls": []
   },
   {
-    "job_id": "a1142f70cc767238",
+    "job_id": "d2c02080f5787ccd",
     "company": "Capital One",
     "title": "Business Analyst Intern - Analyst Intern Program (AIP)",
     "ats_source": "workday",
     "apply_url": "https://capitalone.wd1.myworkdayjobs.com/CapitalOne/job/Plano-TX/Business-Analyst-Intern_R184920",
     "location": "Plano, TX",
-    "discovered_at": "2026-09-09T00:26:47.882483",
+    "discovered_at": "2026-09-09T00:54:20.570863",
     "role_category": "AI/ML & GenAI",
     "match_score": 0.64,
     "matching_skills": [
@@ -272,16 +296,18 @@
     ],
     "age_days": 2,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": "R184920",
+    "alternate_urls": []
   },
   {
-    "job_id": "531e416c6cf85660",
+    "job_id": "28e284a15bea5aba",
     "company": "Capital One",
     "title": "Data Science Internship",
     "ats_source": "workday",
     "apply_url": "https://capitalone.wd1.myworkdayjobs.com/CapitalOne/job/Plano-TX/Data-Science-Internship_R184910",
     "location": "Plano, TX",
-    "discovered_at": "2026-09-09T00:26:47.882820",
+    "discovered_at": "2026-09-09T00:54:20.571388",
     "role_category": "Data Analyst & Analytics",
     "match_score": 0.64,
     "matching_skills": [
@@ -291,16 +317,18 @@
     ],
     "age_days": 3,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": "R184910",
+    "alternate_urls": []
   },
   {
-    "job_id": "75474e5f61dc0375",
-    "company": "The Boeing Company",
+    "job_id": "f38f23cf70eba4d7",
+    "company": "Boeing",
     "title": "Data Analytics Intern",
     "ats_source": "workday",
     "apply_url": "https://boeing.wd1.myworkdayjobs.com/EXTERNAL_CAREERS/job/USA---Everett-WA/Boeing-Summer-2027-Internship-Program--Paid----Data-Analytics-Intern_JR2026520976-1",
-    "location": "30 locationsRidley Park, PASeattle, WALong Beach, CAMesa, AZColorado Springs, CORenton, WADallas, TXFairfax, VAPlano, TXChicago, ILSeal Beach, CATukwila, WASt Charles, MOSan Antonio, TXArlington County, Arlington, VAEverett, WABerkeley, MOAuburn, WAOklahoma City, OKKent, WACharleston, SCBellevue, WAHerndon, VAAtlanta, GAHuntsville, ALNorth Charleston, SCHuntington Beach, CAHazelwood, MOMukilteo, WAEl Segundo, CA",
-    "discovered_at": "2026-09-09T00:26:47.945777",
+    "location": "Dallas, TX (Multi-Location)",
+    "discovered_at": "2026-09-09T00:54:20.673545",
     "role_category": "Data Analyst & Analytics",
     "match_score": 0.56,
     "matching_skills": [
@@ -309,34 +337,20 @@
     ],
     "age_days": 1,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": "JR2026520976",
+    "alternate_urls": [
+      "https://boeing.wd1.myworkdayjobs.com/INTERN/job/USA---Everett-WA/Boeing-Summer-2027-Internship-Program--Paid----Data-Analytics-Intern_JR2026520976"
+    ]
   },
   {
-    "job_id": "90e897593ad98fac",
-    "company": "\u21b3",
-    "title": "Data Analytics Intern",
-    "ats_source": "workday",
-    "apply_url": "https://boeing.wd1.myworkdayjobs.com/INTERN/job/USA---Everett-WA/Boeing-Summer-2027-Internship-Program--Paid----Data-Analytics-Intern_JR2026520976",
-    "location": "30 locationsRidley Park, PASeattle, WALong Beach, CAMesa, AZColorado Springs, CORenton, WADallas, TXFairfax, VAPlano, TXChicago, ILSeal Beach, CATukwila, WASt Charles, MOSan Antonio, TXArlington County, Arlington, VAEverett, WABerkeley, MOAuburn, WAOklahoma City, OKKent, WACharleston, SCBellevue, WAHerndon, VAAtlanta, GAHuntsville, ALNorth Charleston, SCHuntington Beach, CAHazelwood, MOMukilteo, WAEl Segundo, CA",
-    "discovered_at": "2026-09-09T00:26:47.946593",
-    "role_category": "Data Analyst & Analytics",
-    "match_score": 0.56,
-    "matching_skills": [
-      "analytics",
-      "data analytics"
-    ],
-    "age_days": 1,
-    "is_dfw": true,
-    "is_remote": false
-  },
-  {
-    "job_id": "5c7407f141a14784",
+    "job_id": "cce8230d462f571c",
     "company": "RTX (Raytheon Technologies)",
     "title": "Software Platform & DevOps Intern",
     "ats_source": "workday",
     "apply_url": "https://rtx.wd3.myworkdayjobs.com/RTXCareers/job/Richardson-TX/Software-Platform-Intern_0167891",
     "location": "Richardson, TX",
-    "discovered_at": "2026-09-09T00:26:47.883519",
+    "discovered_at": "2026-09-09T00:54:20.572207",
     "role_category": "Software Engineering (Fullstack/Backend)",
     "match_score": 0.56,
     "matching_skills": [
@@ -345,16 +359,18 @@
     ],
     "age_days": 4,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": "0167891",
+    "alternate_urls": []
   },
   {
-    "job_id": "8f48807184688468",
+    "job_id": "2291d8d8ffd1a102",
     "company": "Sierra Nevada Corporation (SNC)",
     "title": "Software Engineering Intern",
     "ats_source": "workday",
     "apply_url": "https://snc.wd1.myworkdayjobs.com/SNC_Careers/job/Plano-TX/Software-Engineering-Intern_R0023412",
     "location": "Plano, TX",
-    "discovered_at": "2026-09-09T00:26:47.884612",
+    "discovered_at": "2026-09-09T00:54:20.573898",
     "role_category": "Software Engineering (Fullstack/Backend)",
     "match_score": 0.56,
     "matching_skills": [
@@ -363,16 +379,18 @@
     ],
     "age_days": 4,
     "is_dfw": true,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": "R0023412",
+    "alternate_urls": []
   },
   {
-    "job_id": "8303d66a7ad8c8dd",
+    "job_id": "97534996c568768e",
     "company": "ONE Finance",
     "title": "Software Engineer Intern",
     "ats_source": "ashby",
     "apply_url": "https://jobs.ashbyhq.com/oneapp/ba18d004-3212-44e4-8a0c-bd1215bae770/application",
     "location": "Remote in USA",
-    "discovered_at": "2026-09-09T00:26:47.887425",
+    "discovered_at": "2026-09-09T00:54:20.577906",
     "role_category": "Software Engineering (Fullstack/Backend)",
     "match_score": 0.88,
     "matching_skills": [
@@ -385,16 +403,20 @@
     ],
     "age_days": 0,
     "is_dfw": false,
-    "is_remote": true
+    "is_remote": true,
+    "requisition_id": "ba18d004-3212-44e4-8a0c-bd1215bae770",
+    "alternate_urls": [
+      "https://jobs.ashbyhq.com/oneapp/ba18d004-3212-44e4-8a0c-bd1215bae770/application?embed=true"
+    ]
   },
   {
-    "job_id": "111266d514fd6098",
+    "job_id": "089a40415851c5a2",
     "company": "Cadence Solutions",
     "title": "Software Engineering Intern - AI & Healthcare Data",
     "ats_source": "greenhouse",
     "apply_url": "https://boards.greenhouse.io/cadencesolutions/jobs/4397621005",
     "location": "Remote in USA",
-    "discovered_at": "2026-09-09T00:26:47.886436",
+    "discovered_at": "2026-09-09T00:54:20.576800",
     "role_category": "AI/ML & GenAI",
     "match_score": 0.72,
     "matching_skills": [
@@ -405,16 +427,18 @@
     ],
     "age_days": 3,
     "is_dfw": false,
-    "is_remote": true
+    "is_remote": true,
+    "requisition_id": "4397621005",
+    "alternate_urls": []
   },
   {
-    "job_id": "aedb4986f1f93655",
+    "job_id": "3d802ebd3c02dccb",
     "company": "Cloudflare",
     "title": "Research Engineer Intern - AI & Internet Systems",
     "ats_source": "greenhouse",
     "apply_url": "https://boards.greenhouse.io/cloudflare/jobs/6198732",
     "location": "Austin, TX / Remote",
-    "discovered_at": "2026-09-09T00:26:47.886780",
+    "discovered_at": "2026-09-09T00:54:20.577184",
     "role_category": "AI/ML & GenAI",
     "match_score": 0.72,
     "matching_skills": [
@@ -425,16 +449,18 @@
     ],
     "age_days": 3,
     "is_dfw": false,
-    "is_remote": true
+    "is_remote": true,
+    "requisition_id": "6198732",
+    "alternate_urls": []
   },
   {
-    "job_id": "b232108f1dc1b617",
+    "job_id": "f85d4f679b9197ce",
     "company": "Semgrep",
     "title": "Software Engineer Intern - Cloud Platform",
     "ats_source": "ashby",
     "apply_url": "https://jobs.ashbyhq.com/semgrep/8e64dc7f-e925-4361-86d5-b01ee518c987/application",
     "location": "Remote in USA",
-    "discovered_at": "2026-09-09T00:26:47.889606",
+    "discovered_at": "2026-09-09T00:54:20.578268",
     "role_category": "Software Engineering (Fullstack/Backend)",
     "match_score": 0.64,
     "matching_skills": [
@@ -444,16 +470,20 @@
     ],
     "age_days": 0,
     "is_dfw": false,
-    "is_remote": true
+    "is_remote": true,
+    "requisition_id": "8e64dc7f-e925-4361-86d5-b01ee518c987",
+    "alternate_urls": [
+      "https://jobs.ashbyhq.com/semgrep/8e64dc7f-e925-4361-86d5-b01ee518c987/application?embed=true"
+    ]
   },
   {
-    "job_id": "bc34acdb8ee161d4",
+    "job_id": "7d0d9e17f9f2e248",
     "company": "Viam Robotics",
     "title": "Software Engineer Intern",
     "ats_source": "greenhouse",
     "apply_url": "https://job-boards.greenhouse.io/viamrobotics/jobs/6185046004",
     "location": "Remote in USA",
-    "discovered_at": "2026-09-09T00:26:47.890074",
+    "discovered_at": "2026-09-09T00:54:20.578623",
     "role_category": "Software Engineering (Fullstack/Backend)",
     "match_score": 0.64,
     "matching_skills": [
@@ -463,34 +493,38 @@
     ],
     "age_days": 0,
     "is_dfw": false,
-    "is_remote": true
+    "is_remote": true,
+    "requisition_id": "6185046004",
+    "alternate_urls": []
   },
   {
-    "job_id": "e2c8a3db3eac7ac7",
-    "company": "\u21b3",
+    "job_id": "23edee0a3d6cff3f",
+    "company": "NXP Semiconductors",
     "title": "Data Analytics Engineer Intern - Summer 2027",
     "ats_source": "workday",
     "apply_url": "https://nxp.wd3.myworkdayjobs.com/en-US/careers/job/Austin-Oakhill-Office/Data-Analytics-Engineer-Intern---Summer-2027_R-10065538",
     "location": "Austin, TX",
-    "discovered_at": "2026-09-09T00:26:47.925650",
+    "discovered_at": "2026-09-09T00:54:20.636276",
     "role_category": "Data Analyst & Analytics",
     "match_score": 0.56,
     "matching_skills": [
       "analytics",
       "data analytics"
     ],
-    "age_days": 1,
+    "age_days": 2,
     "is_dfw": false,
-    "is_remote": true
+    "is_remote": true,
+    "requisition_id": null,
+    "alternate_urls": []
   },
   {
-    "job_id": "be46bf37c3598f4d",
-    "company": "Ragle Inc",
+    "job_id": "7ef707faeb69ce9c",
+    "company": "Ragle",
     "title": "Data Analytics Intern",
     "ats_source": "other",
     "apply_url": "https://ragleinc.applytojob.com/apply/H0xLKtFZlq/Data-Analytics-Intern-Summer-2027",
     "location": "North Richland Hills, TX",
-    "discovered_at": "2026-09-09T00:26:47.927656",
+    "discovered_at": "2026-09-09T00:54:20.639610",
     "role_category": "Data Analyst & Analytics",
     "match_score": 0.56,
     "matching_skills": [
@@ -499,34 +533,38 @@
     ],
     "age_days": 4,
     "is_dfw": false,
-    "is_remote": false
+    "is_remote": false,
+    "requisition_id": null,
+    "alternate_urls": []
   },
   {
-    "job_id": "adbdf983ddaa0189",
-    "company": "\u21b3",
+    "job_id": "4b9630fa0460d2ed",
+    "company": "Nationwide",
     "title": "Generative AI Intern",
     "ats_source": "workday",
     "apply_url": "https://nationwide.wd1.myworkdayjobs.com/Nationwide_Career/job/Ohio---Columbus-Metro/Summer-2027-Generative-AI-Internship_100231",
     "location": "Columbus, OH",
-    "discovered_at": "2026-09-09T00:26:47.928852",
+    "discovered_at": "2026-09-09T00:54:20.641112",
     "role_category": "AI/ML & GenAI",
     "match_score": 0.56,
     "matching_skills": [
       "ai",
       "generative ai"
     ],
-    "age_days": 4,
+    "age_days": 5,
     "is_dfw": false,
-    "is_remote": true
+    "is_remote": true,
+    "requisition_id": "100231",
+    "alternate_urls": []
   },
   {
-    "job_id": "33f0698ce8bdf7ee",
+    "job_id": "ca96ae2e40b4b9e9",
     "company": "Universal Health Services",
     "title": "Software Engineer Intern - Data Analytics",
-    "ats_source": "other",
+    "ats_source": "icims",
     "apply_url": "https://jobs.uhsinc.com/jobs/367247?icims=1",
     "location": "King of Prussia, PA",
-    "discovered_at": "2026-09-09T00:26:47.899471",
+    "discovered_at": "2026-09-09T00:54:20.596974",
     "role_category": "Data Analyst & Analytics",
     "match_score": 0.56,
     "matching_skills": [
@@ -535,6 +573,8 @@
     ],
     "age_days": 6,
     "is_dfw": false,
-    "is_remote": true
+    "is_remote": true,
+    "requisition_id": "367247",
+    "alternate_urls": []
   }
 ]

@@ -11,7 +11,7 @@ class JobPosting:
     job_id: str
     company: str
     title: str
-    ats_source: Literal["greenhouse", "lever", "ashby", "workday", "other"]
+    ats_source: Literal["greenhouse", "lever", "ashby", "workday", "icims", "other"]
     apply_url: str
     location: str
     discovered_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
@@ -21,6 +21,8 @@ class JobPosting:
     age_days: Optional[int] = None
     is_dfw: bool = False
     is_remote: bool = False
+    requisition_id: Optional[str] = None
+    alternate_urls: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)

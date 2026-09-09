@@ -14,7 +14,14 @@ from typing import List, Dict, Any
 from datetime import datetime
 
 from execution.scrapers.models import JobPosting
-from execution.scrapers.url_utils import clean_canonical_url, detect_ats_source, generate_job_id
+from execution.scrapers.url_utils import (
+    clean_canonical_url,
+    detect_ats_source,
+    generate_job_id,
+    resolve_company_name,
+    extract_requisition_id,
+    sanitize_location
+)
 from execution.scrapers.qualification_matcher import classify_role_category, evaluate_qualification_match
 
 
@@ -278,8 +285,7 @@ def run_intelligence_pipeline(max_age_days: int = 7) -> List[JobPosting]:
     print(f"Total raw candidates collected: {len(raw_entries)}")
     
     print("[2/4] Filtering, normalizing canonical URLs, and matching candidate qualifications...")
-    seen_ids = set()
-    verified_jobs: List[JobPosting] = []
+    seen_jobs: Dict[str, JobPosting] = {}
     
     for entry in raw_entries:
         raw_url = entry.get("raw_url", "")
@@ -288,17 +294,28 @@ def run_intelligence_pipeline(max_age_days: int = 7) -> List[JobPosting]:
             
         canonical_url = clean_canonical_url(raw_url)
         ats_source = detect_ats_source(canonical_url)
-        company = entry.get("company", "Unknown")
+        raw_company = entry.get("company", "Unknown")
+        company = resolve_company_name(raw_company, canonical_url)
         title = entry.get("title", "")
-        location = entry.get("location", "")
+        raw_location = entry.get("location", "")
         age = entry.get("age_days")
         description = entry.get("description", "")
         
         job_id = generate_job_id(company, title, canonical_url)
-        if job_id in seen_ids:
+        
+        # Deduplicate identical requisitions across internal career boards
+        if job_id in seen_jobs:
+            existing_job = seen_jobs[job_id]
+            if canonical_url != existing_job.apply_url and canonical_url not in existing_job.alternate_urls:
+                # Prefer external careers or primary boards as main URL
+                if "external_careers" in canonical_url.lower() and "external_careers" not in existing_job.apply_url.lower():
+                    existing_job.alternate_urls.append(existing_job.apply_url)
+                    existing_job.apply_url = canonical_url
+                else:
+                    existing_job.alternate_urls.append(canonical_url)
             continue
             
-        loc_lower = location.lower()
+        loc_lower = raw_location.lower()
         is_dfw = any(city in loc_lower for city in ["dallas", "plano", "irving", "richardson", "frisco", "fort worth", "dfw", "grapevine", "westlake", "denton"])
         is_tx = ("tx" in loc_lower or "texas" in loc_lower)
         is_remote = any(r in loc_lower for r in ["remote", "usa", "us", "anywhere"])
@@ -311,12 +328,16 @@ def run_intelligence_pipeline(max_age_days: int = 7) -> List[JobPosting]:
         if age is not None and age > max_age_days:
             continue
             
+        # Sanitize multi-location string bloat (e.g. 30 locationsRidley Park...)
+        location = sanitize_location(raw_location, is_dfw=is_dfw)
+            
         # Match candidate qualifications
         match_score, matched_skills, qualifies = evaluate_qualification_match(title, description)
         if not qualifies:
             continue
             
         role_category = classify_role_category(title)
+        req_id = extract_requisition_id(canonical_url)
         
         posting = JobPosting(
             job_id=job_id,
@@ -330,12 +351,14 @@ def run_intelligence_pipeline(max_age_days: int = 7) -> List[JobPosting]:
             matching_skills=matched_skills,
             age_days=age,
             is_dfw=is_dfw,
-            is_remote=is_remote
+            is_remote=is_remote,
+            requisition_id=req_id
         )
         
-        seen_ids.add(job_id)
-        verified_jobs.append(posting)
+        seen_jobs[job_id] = posting
         
+    verified_jobs = list(seen_jobs.values())
+    
     # Sort: DFW first, then by match_score descending, then by age ascending
     verified_jobs.sort(key=lambda j: (j.is_dfw, j.match_score, -(j.age_days or 0)), reverse=True)
     
@@ -358,8 +381,8 @@ def save_deliverables(jobs: List[JobPosting], json_path: str, csv_path: str):
     if jobs:
         headers = [
             "job_id", "company", "title", "role_category", "ats_source",
-            "location", "is_dfw", "is_remote", "age_days", "match_score",
-            "matching_skills", "apply_url", "discovered_at"
+            "requisition_id", "location", "is_dfw", "is_remote", "age_days",
+            "match_score", "matching_skills", "apply_url", "alternate_urls", "discovered_at"
         ]
         with open(csv_path, "w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
@@ -371,16 +394,19 @@ def save_deliverables(jobs: List[JobPosting], json_path: str, csv_path: str):
                     j.title,
                     j.role_category,
                     j.ats_source,
+                    j.requisition_id or "",
                     j.location,
                     j.is_dfw,
                     j.is_remote,
-                    j.age_days,
+                    j.age_days if j.age_days is not None else "",
                     j.match_score,
                     "; ".join(j.matching_skills),
                     j.apply_url,
+                    "; ".join(j.alternate_urls),
                     j.discovered_at
                 ])
         print(f"[+] Saved clean CSV spreadsheet: {csv_path}")
+
 
 
 if __name__ == "__main__":
