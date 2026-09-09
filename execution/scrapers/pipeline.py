@@ -23,6 +23,7 @@ from execution.scrapers.url_utils import (
     sanitize_location
 )
 from execution.scrapers.qualification_matcher import classify_role_category, evaluate_qualification_match
+from execution.scrapers.link_validator import validate_job_links_concurrently
 
 
 # Primary feed endpoints for live ATS listings
@@ -358,12 +359,16 @@ def run_intelligence_pipeline(max_age_days: int = 7) -> List[JobPosting]:
         seen_jobs[job_id] = posting
         
     verified_jobs = list(seen_jobs.values())
+    print(f"[3/4] Filtered and scored {len(verified_jobs)} matching candidate opportunities.")
+    
+    print("[4/4] Validating live HTTP link health concurrently (5 worker threads)...")
+    active_jobs, dead_jobs = validate_job_links_concurrently(verified_jobs, max_workers=5, timeout=5)
     
     # Sort: DFW first, then by match_score descending, then by age ascending
-    verified_jobs.sort(key=lambda j: (j.is_dfw, j.match_score, -(j.age_days or 0)), reverse=True)
+    active_jobs.sort(key=lambda j: (j.is_dfw, j.match_score, -(j.age_days or 0)), reverse=True)
     
-    print(f"[3/4] Successfully matched and verified {len(verified_jobs)} high-qualification positions!")
-    return verified_jobs
+    print(f"[+] Verified {len(active_jobs)} LIVE, working positions ready for immediate application!")
+    return active_jobs
 
 
 def save_deliverables(jobs: List[JobPosting], json_path: str, csv_path: str):

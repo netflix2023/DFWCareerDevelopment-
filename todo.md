@@ -23,11 +23,12 @@
   - [x] 2.4 Verify scores against Neftali's candidate profile (`PERSONA_AI_ENGINEER_INTERN_DFW.md`)
 
 
-- [ ] **Module 3: Fast Concurrent Live Link Validator**
-  - [ ] 3.1 Build `execution/scrapers/link_validator.py` with 5 worker threads (`ThreadPoolExecutor`)
-  - [ ] 3.2 Implement HTTP HEAD check with GET fallback (5s timeout, 1 retry with exponential backoff)
-  - [ ] 3.3 Filter out HTTP 404s, 410s, and closed requisition redirects
-  - [ ] 3.4 Verify live validation speeds on existing 27 harvested jobs
+- [x] **Module 3: Fast Concurrent Live Link Validator**
+  - [x] 3.1 Build `execution/scrapers/link_validator.py` with 5 worker threads (`ThreadPoolExecutor`)
+  - [x] 3.2 Implement HTTP HEAD check with GET fallback (5s timeout, 1 retry with exponential backoff)
+  - [x] 3.3 Filter out HTTP 404s, 410s, and closed requisition redirects
+  - [x] 3.4 Verify live validation speeds on existing harvested jobs (validated in 7.97s; dropped 15 dead links; kept 12 active)
+
 
 - [ ] **Module 4: SQLite Database & Job Market Telemetry Tracker**
   - [ ] 4.1 Create `career.db` schema: `jobs` (UNIQUE `job_id`), `job_telemetry` (demand stats, post times, close times), `applications`

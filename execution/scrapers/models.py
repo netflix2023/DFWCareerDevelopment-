@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, field, asdict
 from typing import Literal, Optional, List, Dict, Any
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 @dataclass
@@ -14,7 +14,7 @@ class JobPosting:
     ats_source: Literal["greenhouse", "lever", "ashby", "workday", "icims", "other"]
     apply_url: str
     location: str
-    discovered_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+    discovered_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     role_category: str = "Software Engineering"
     match_score: float = 0.0
     matching_skills: List[str] = field(default_factory=list)
