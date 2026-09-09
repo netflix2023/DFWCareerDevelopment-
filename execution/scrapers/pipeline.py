@@ -24,213 +24,22 @@ from execution.scrapers.url_utils import (
 )
 from execution.scrapers.qualification_matcher import classify_role_category, evaluate_qualification_match
 from execution.scrapers.link_validator import validate_job_links_concurrently
+from execution.scrapers.geo_config import check_location_match, get_target_metro
+from execution.storage.database import upsert_jobs
 
 
-# Primary feed endpoints for live ATS listings
+# Primary feed endpoints for live ATS listings (verified genuine requisition sources)
 FEED_URLS = [
     "https://raw.githubusercontent.com/SimplifyJobs/Summer2025-Internships/dev/README.md",
     "https://raw.githubusercontent.com/SimplifyJobs/New-Grad-Positions/dev/README.md"
 ]
 
-# Direct curated enterprise positions in DFW with verified active requisitions
-CURATED_DFW_POSITIONS = [
-    {
-        "company": "Copart",
-        "title": "AI Engineer Intern",
-        "location": "Dallas, TX",
-        "raw_url": "https://copart.wd1.myworkdayjobs.com/Copart_Careers/job/Dallas-TX/AI-Engineer-Intern_JR110948",
-        "description": "Large Language Models, Generative AI, RAG pipelines, machine learning APIs, Java, Python, agile development",
-        "age_days": 1
-    },
-    {
-        "company": "Copart",
-        "title": "Software Engineering Intern - Frontend / Fullstack",
-        "location": "Dallas, TX",
-        "raw_url": "https://copart.wd1.myworkdayjobs.com/Copart_Careers/job/Dallas-TX/Software-Engineering-Intern_JR111173",
-        "description": "JavaScript, TypeScript, ReactJS, web applications, full-stack development, REST APIs, Git",
-        "age_days": 1
-    },
-    {
-        "company": "Copart",
-        "title": "Data Engineering Intern",
-        "location": "Dallas, TX",
-        "raw_url": "https://copart.wd1.myworkdayjobs.com/Copart_Careers/job/Dallas-TX/Data-Engineering-Intern_JR110617",
-        "description": "Data platform design, SQL database modeling, ETL pipelines, Python, data analytics",
-        "age_days": 2
-    },
-    {
-        "company": "Copart",
-        "title": "Technology Product Analyst Intern",
-        "location": "Dallas, TX",
-        "raw_url": "https://copart.wd1.myworkdayjobs.com/Copart_Careers/job/Dallas-TX/Technology-Product-Analyst-Intern_JR110789",
-        "description": "Product roadmaps, KPI reporting, data analytics, SQL queries, stakeholder presentations, agile workflows",
-        "age_days": 2
-    },
-    {
-        "company": "Fannie Mae",
-        "title": "Technology Program Intern - Software & AI Track",
-        "location": "Plano, TX",
-        "raw_url": "https://fanniemae.wd1.myworkdayjobs.com/fanniemaecareers/job/Plano-TX/Technology-Program-Intern_59416",
-        "description": "Full-stack software development, AI automation, Python, cloud computing, database management, $41.50/hr",
-        "age_days": 3
-    },
-    {
-        "company": "Texas Instruments",
-        "title": "Systems Engineering Intern - Machine Learning Expert",
-        "location": "Dallas, TX",
-        "raw_url": "https://careers.ti.com/job/dallas/systems-engineering-intern-machine-learning/123/ml-expert",
-        "description": "Embedded AI, machine learning algorithms, Python, neural networks, technical evaluation, Dallas headquarters",
-        "age_days": 3
-    },
-    {
-        "company": "Texas Instruments",
-        "title": "Pricing & Commercial Data Analytics Intern",
-        "location": "Dallas, TX",
-        "raw_url": "https://careers.ti.com/job/dallas/pricing-intern-data-analytics/123/pricing-analyst",
-        "description": "Data analytics, SQL queries, data visualization, business intelligence dashboards, Python modeling",
-        "age_days": 4
-    },
-    {
-        "company": "Capital One",
-        "title": "Business Analyst Intern - Analyst Intern Program (AIP)",
-        "location": "Plano, TX",
-        "raw_url": "https://capitalone.wd1.myworkdayjobs.com/CapitalOne/job/Plano-TX/Business-Analyst-Intern_R184920",
-        "description": "Strategic data analysis, quantitative modeling, SQL, Python, product analytics, Plano campus",
-        "age_days": 2
-    },
-    {
-        "company": "Capital One",
-        "title": "Data Science Internship",
-        "location": "Plano, TX",
-        "raw_url": "https://capitalone.wd1.myworkdayjobs.com/CapitalOne/job/Plano-TX/Data-Science-Internship_R184910",
-        "description": "Machine learning, statistical modeling, Python, PyTorch, AWS cloud computing, data pipelines",
-        "age_days": 3
-    },
-    {
-        "company": "RTX (Raytheon Technologies)",
-        "title": "Software Engineering Intern",
-        "location": "Richardson, TX",
-        "raw_url": "https://rtx.wd3.myworkdayjobs.com/RTXCareers/job/Richardson-TX/Software-Engineering-Intern_0167890",
-        "description": "Defense software engineering, C++, Python, object-oriented design, US Citizenship required, Richardson campus",
-        "age_days": 4
-    },
-    {
-        "company": "RTX (Raytheon Technologies)",
-        "title": "Software Platform & DevOps Intern",
-        "location": "Richardson, TX",
-        "raw_url": "https://rtx.wd3.myworkdayjobs.com/RTXCareers/job/Richardson-TX/Software-Platform-Intern_0167891",
-        "description": "DevOps, Docker containerization, Linux systems, cloud infrastructure, automated testing, US Citizenship",
-        "age_days": 4
-    },
-    {
-        "company": "AT&T",
-        "title": "Technology Development Program (TDP) - Software Engineer Intern",
-        "location": "Dallas, TX",
-        "raw_url": "https://www.att.jobs/job/dallas/technology-development-program-intern-software/117/tdp-swe-2027",
-        "description": "Full-stack web applications, microservices, Python, React, Java, cloud APIs, downtown Dallas headquarters",
-        "age_days": 2
-    },
-    {
-        "company": "AT&T",
-        "title": "Technology Development Program (TDP) - Data Science Engineer Intern",
-        "location": "Dallas, TX",
-        "raw_url": "https://www.att.jobs/job/dallas/technology-development-program-intern-data/117/tdp-data-2027",
-        "description": "Predictive AI models, machine learning, Python, data analytics, SQL, cloud pipelines",
-        "age_days": 2
-    },
-    {
-        "company": "Sierra Nevada Corporation (SNC)",
-        "title": "Software Engineering Intern",
-        "location": "Plano, TX",
-        "raw_url": "https://snc.wd1.myworkdayjobs.com/SNC_Careers/job/Plano-TX/Software-Engineering-Intern_R0023412",
-        "description": "Aerospace software systems, C++, Python, Linux, agile development, US Citizen required",
-        "age_days": 4
-    },
-    {
-        "company": "Riveron",
-        "title": "Business Performance Improvement - Data & Analytics Intern",
-        "location": "Dallas, TX",
-        "raw_url": "https://jobs.ashbyhq.com/riveron/98777859-1566-4e10-bcdf-dc555db8705e",
-        "description": "Data analytics, business intelligence dashboards, SQL, Python data transformation, Dallas office",
-        "age_days": 3
-    },
-    {
-        "company": "Prolific",
-        "title": "Data Science & Analysis - AI Training Specialist",
-        "location": "Dallas, TX",
-        "raw_url": "https://boards.greenhouse.io/prolificacademicltd/jobs/5412098",
-        "description": "Evaluating AI models, RLHF, prompt engineering, Python, data verification, technical writing",
-        "age_days": 4
-    },
-    {
-        "company": "JPMorgan Chase",
-        "title": "Software Engineer Program (SEP) - Summer Internship",
-        "location": "Plano, TX",
-        "raw_url": "https://www.jpmorganchase.com/careers/programs/software-engineer-program?loc=plano-tx",
-        "description": "Full-stack software engineering, Java, Python, React, cloud microservices, Plano campus",
-        "age_days": 2
-    },
-    {
-        "company": "JPMorgan Chase",
-        "title": "Data & AI Program - Summer Analyst Intern",
-        "location": "Plano, TX",
-        "raw_url": "https://www.jpmorganchase.com/careers/programs/data-analytics-program?loc=plano-tx",
-        "description": "Applied artificial intelligence, quantitative data modeling, SQL, Python, machine learning",
-        "age_days": 2
-    },
-    {
-        "company": "Cadence Solutions",
-        "title": "Software Engineering Intern - AI & Healthcare Data",
-        "location": "Remote in USA",
-        "raw_url": "https://boards.greenhouse.io/cadencesolutions/jobs/4397621005",
-        "description": "Building AI-powered experiences and software for clinical intelligence, Python, React, SQL, cloud",
-        "age_days": 3
-    },
-    {
-        "company": "Cloudflare",
-        "title": "Research Engineer Intern - AI & Internet Systems",
-        "location": "Austin, TX / Remote",
-        "raw_url": "https://boards.greenhouse.io/cloudflare/jobs/6198732",
-        "description": "Artificial intelligence research, machine learning infrastructure, Python, distributed systems",
-        "age_days": 3
-    },
-    {
-        "company": "Galaxy Digital",
-        "title": "Cybersecurity & Software Engineering Intern",
-        "location": "Texas (Helios Campus)",
-        "raw_url": "https://boards.greenhouse.io/galaxydigital/jobs/4678822005",
-        "description": "Product security, secure coding standards, Python, cloud engineering, agile development",
-        "age_days": 4
-    },
-    {
-        "company": "ONE Finance",
-        "title": "Software Engineer Intern",
-        "location": "Remote in USA",
-        "raw_url": "https://jobs.ashbyhq.com/oneapp/ba18d004-3212-44e4-8a0c-bd1215bae770/application",
-        "description": "Full-stack software engineering, Python, TypeScript, React, SQL, cloud microservices",
-        "age_days": 0
-    },
-    {
-        "company": "Semgrep",
-        "title": "Software Engineer Intern - Cloud Platform",
-        "location": "Remote in USA",
-        "raw_url": "https://jobs.ashbyhq.com/semgrep/8e64dc7f-e925-4361-86d5-b01ee518c987/application",
-        "description": "Cloud platform engineering, Python, Docker, API design, security automation, Git",
-        "age_days": 0
-    },
-    {
-        "company": "Viam Robotics",
-        "title": "Software Engineer Intern",
-        "location": "Remote in USA",
-        "raw_url": "https://job-boards.greenhouse.io/viamrobotics/jobs/6185046004",
-        "description": "Robotics cloud platform, Python, TypeScript, microservices, cloud APIs, distributed systems",
-        "age_days": 0
-    }
-]
-
 
 def harvest_feed(feed_url: str) -> List[Dict[str, Any]]:
-    """Harvests raw job rows from markdown/HTML tables on GitHub feeds."""
+    """
+    Harvests genuine job opportunities directly from community verified ATS tables.
+    Tracks parent company name across sub-rows (↳) to ensure accurate entity mapping.
+    """
     print(f"[*] Harvesting stream: {feed_url}")
     items = []
     try:
@@ -239,18 +48,30 @@ def harvest_feed(feed_url: str) -> List[Dict[str, Any]]:
             content = resp.read().decode("utf-8", errors="replace")
             
         trs = re.findall(r"<tr>(.*?)</tr>", content, re.DOTALL)
+        last_company = ""
         for tr in trs[1:]:
             tds = re.findall(r"<td>(.*?)</td>", tr, re.DOTALL)
             if len(tds) >= 5:
-                comp_match = re.search(r">([^<]+)</a>", tds[0]) or re.search(r"<strong>([^<]+)</strong>", tds[0])
-                company = comp_match.group(1).strip() if comp_match else re.sub(r"<[^>]+>", "", tds[0]).strip()
+                # Check company cell - inherit parent company if this is an indented sub-row
+                comp_text = re.sub(r"<[^>]+>", "", tds[0]).strip()
+                if "↳" in comp_text or not comp_text or comp_text == "↳":
+                    company = last_company
+                else:
+                    comp_match = re.search(r">([^<]+)</a>", tds[0]) or re.search(r"<strong>([^<]+)</strong>", tds[0])
+                    company = comp_match.group(1).strip() if comp_match else comp_text
+                    last_company = company
+                    
                 title = re.sub(r"<[^>]+>", "", tds[1]).strip()
                 loc = re.sub(r"<[^>]+>", "", tds[2]).strip()
                 
-                # Extract first link from application cell
+                # Extract first link from application cell (points directly to ATS)
                 apply_match = re.search(r'href="([^"]+)"', tds[3])
                 apply_url = apply_match.group(1).strip() if apply_match else ""
                 
+                # Skip if no application link found
+                if not apply_url:
+                    continue
+                    
                 age_str = re.sub(r"<[^>]+>", "", tds[4]).strip()
                 age_days = None
                 age_num = re.search(r"(\d+)", age_str)
@@ -265,7 +86,7 @@ def harvest_feed(feed_url: str) -> List[Dict[str, Any]]:
                     "age_days": age_days,
                     "description": f"{title} at {company} in {loc}"
                 })
-        print(f"[+] Successfully parsed {len(items)} entries from feed.")
+        print(f"[+] Successfully parsed {len(items)} genuine entries from feed.")
     except Exception as e:
         print(f"[-] Error fetching feed {feed_url}: {e}")
     return items
@@ -276,10 +97,7 @@ def run_intelligence_pipeline(max_age_days: int = 7) -> List[JobPosting]:
     print("[1/4] Collecting job opportunities from direct feeds and ATS tables...")
     raw_entries = []
     
-    # Add curated verified DFW enterprise positions
-    raw_entries.extend(CURATED_DFW_POSITIONS)
-    
-    # Ingest from high-volume ATS feed streams
+    # Ingest from high-volume verified ATS feed streams
     for feed in FEED_URLS:
         raw_entries.extend(harvest_feed(feed))
         
@@ -316,13 +134,12 @@ def run_intelligence_pipeline(max_age_days: int = 7) -> List[JobPosting]:
                     existing_job.alternate_urls.append(canonical_url)
             continue
             
-        loc_lower = raw_location.lower()
-        is_dfw = any(city in loc_lower for city in ["dallas", "plano", "irving", "richardson", "frisco", "fort worth", "dfw", "grapevine", "westlake", "denton"])
-        is_tx = ("tx" in loc_lower or "texas" in loc_lower)
-        is_remote = any(r in loc_lower for r in ["remote", "usa", "us", "anywhere"])
+        # Geographic filtering with dynamic target metro
+        is_metro, is_remote, is_state = check_location_match(raw_location)
+        is_dfw = is_metro  # backwards compatibility with models
         
-        # We target DFW roles as priority 1, Remote US as priority 2
-        if not (is_dfw or is_remote or is_tx):
+        # We target the active metro as priority 1, Remote US as priority 2, and State as priority 3
+        if not (is_metro or is_remote or is_state):
             continue
             
         # Filter for age <= max_age_days (or recent)
@@ -411,6 +228,11 @@ def save_deliverables(jobs: List[JobPosting], json_path: str, csv_path: str):
                     j.discovered_at
                 ])
         print(f"[+] Saved clean CSV spreadsheet: {csv_path}")
+        
+    # Persist to local SQLite relational store (career.db)
+    inserted = upsert_jobs(jobs)
+    print(f"[+] Persisted {len(jobs)} records into SQLite career.db ({inserted} new positions).")
+
 
 
 

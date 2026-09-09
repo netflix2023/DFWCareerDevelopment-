@@ -48,3 +48,16 @@
   1. Detect multi-location blobs (e.g. `locations` in text or string length $> 80$).
   2. If `is_dfw` is True, extract the specific matching DFW municipality (e.g. `"Dallas, TX"` or `"Plano, TX"`).
   3. Standardize string to `"Dallas, TX (Multi-Location / Hybrid)"` or clean city/state pairs.
+
+---
+
+## Issue 5: Seed URLs Redirecting to General Career Portals Instead of Direct Job Postings
+* **Date**: 2026-09-08
+* **Component**: `execution/scrapers/pipeline.py` (`CURATED_DFW_POSITIONS`) & `link_validator.py`
+* **Symptom**: Candidate clicked apply links and landed on general corporate homepages/search bars (e.g. att.jobs, ti.com) rather than direct application pages.
+* **Root Cause**: Early development seed list contained placeholder / synthetic URL slugs without live requisition IDs.
+* **Solution**:
+  1. Completely purge synthetic seed entries.
+  2. Require every candidate job link to possess a direct ATS requisition path (e.g. `boards.greenhouse.io/<co>/jobs/<id>`, `jobs.ashbyhq.com/<co>/<uuid>`, `jobs.lever.co/<co>/<uuid>`, `*.myworkdayjobs.com/..._<req_id>`).
+  3. In `link_validator.py`, detect when a URL redirects away from an ATS job path to a generic `/careers` or home search page.
+

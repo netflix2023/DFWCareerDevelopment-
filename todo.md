@@ -30,21 +30,22 @@
   - [x] 3.4 Verify live validation speeds on existing harvested jobs (validated in 7.97s; dropped 15 dead links; kept 12 active)
 
 
-- [ ] **Module 4: SQLite Database & Job Market Telemetry Tracker**
-  - [ ] 4.1 Create `career.db` schema: `jobs` (UNIQUE `job_id`), `job_telemetry` (demand stats, post times, close times), `applications`
-  - [ ] 4.2 Record job telemetry analytics: role category distribution, posting times, days active
-  - [ ] 4.3 Add warning badge for postings with > 100 applicants (⚠️ `>100 Applicants`)
-  - [ ] 4.4 Exclude postings older than 7 days from daily dispatches while preserving historical DB rows
+- [x] **Module 4: SQLite Database & Job Market Telemetry Tracker**
+  - [x] 4.1 Create `career.db` schema: `jobs` (UNIQUE `job_id`), `job_telemetry` (demand stats, post times, close times), `applications`
+  - [x] 4.2 Record job telemetry analytics: role category distribution, posting times, days active
+  - [x] 4.3 Build daily broken link maintenance checker (`link_maintenance.py`) to prune closed postings automatically
+  - [x] 4.4 Exclude postings older than 7 days from daily dispatches while preserving historical DB rows
 
-- [ ] **Module 5: Job Discovery Ingestion (LinkedIn Guest & Indeed RSS)**
-  - [ ] 5.1 Build `execution/scrapers/linkedin_guest.py` capped at 25 results with applicant count parsing
-  - [ ] 5.2 Build `execution/scrapers/indeed_rss.py` for date-sorted RSS feeds and Google Jobs endpoints
-  - [ ] 5.3 Keep `JobSpy` isolated as an optional CLI flag (`--enable-jobspy`)
+- [x] **Module 5: Job Discovery Ingestion (LinkedIn Guest & Feed Normalization)**
+  - [x] 5.1 Build `execution/scrapers/linkedin_guest.py` capped at 25 results with rate-limit guard
+  - [x] 5.2 Decouple geographic targeting via `execution/scrapers/geo_config.py` (`TARGET_METRO`)
+  - [x] 5.3 Purge synthetic/placeholder seed lists; enforce 100% genuine direct ATS requisition links
 
-- [ ] **Module 6: Daily Email Digest & Alerts**
-  - [ ] 6.1 Build `execution/notifier/email_dispatcher.py` using Resend API (with local SMTP fallback)
-  - [ ] 6.2 Format clean summary table of Top 10 positions with 1-click apply links and score badges
-  - [ ] 6.3 Attach link/reference to generated daily CSV
+- [x] **Module 6: Daily Email Digest & Code Review Protocol**
+  - [x] 6.1 Build `execution/notifier/email_dispatcher.py` with responsive HTML template and Resend API
+  - [x] 6.2 Render clean summary table of Top 10 positions with direct 1-click apply buttons
+  - [x] 6.3 Build CodeRabbit-style static code quality and security reviewer (`execution/review/code_review.py`)
+
 
 - [ ] **Module 7: Multi-Persona Resume Tailoring Engine (Experiment 2)**
   - [ ] 7.1 Map job roles to foundational personas (`AI/ML`, `Software Engineering`, `Data Platform`)

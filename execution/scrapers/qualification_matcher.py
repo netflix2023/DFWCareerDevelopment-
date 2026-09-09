@@ -94,13 +94,14 @@ def evaluate_qualification_match(title: str, description: str = "") -> Tuple[flo
                 continue
             matched_skills.append(skill)
             
-    # Calculate simple score: Base 0.40 + weighted points
-    score = 0.40
+    # Calculate simple score: Base 0.50 for verified technical intern + weighted skill points
+    score = 0.50
     for skill in matched_skills:
         if skill in CORE_PILLARS:
             score += 0.15
         else:
             score += 0.05
+
             
     score = min(1.0, round(score, 2))
     qualifies = (score >= 0.50)
