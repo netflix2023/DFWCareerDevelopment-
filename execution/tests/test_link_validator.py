@@ -9,7 +9,7 @@ from execution.scrapers.models import JobPosting
 class TestLinkValidator(unittest.TestCase):
 
     @patch("urllib.request.urlopen")
-    def test_active_link_returns_true(self, mock_urlopen):
+    def test_active_link_returns_true(self, mock_urlopen: MagicMock) -> None:
         mock_response = MagicMock()
         mock_response.getcode.return_value = 200
         mock_response.read.return_value = b"<html><head><title>Job Details</title></head><body>Apply Now</body></html>"
@@ -20,7 +20,7 @@ class TestLinkValidator(unittest.TestCase):
         self.assertEqual(reason, "200 OK")
 
     @patch("urllib.request.urlopen")
-    def test_closed_job_keyword_flagged(self, mock_urlopen):
+    def test_closed_job_keyword_flagged(self, mock_urlopen: MagicMock) -> None:
         mock_response = MagicMock()
         mock_response.getcode.return_value = 200
         mock_response.read.return_value = b"<html><body>This job posting is no longer accepting applications.</body></html>"
@@ -31,7 +31,7 @@ class TestLinkValidator(unittest.TestCase):
         self.assertIn("Position closed", reason)
 
     @patch("urllib.request.urlopen")
-    def test_concurrent_filtering(self, mock_urlopen):
+    def test_concurrent_filtering(self, mock_urlopen: MagicMock) -> None:
         mock_response = MagicMock()
         mock_response.getcode.return_value = 200
         mock_response.read.return_value = b"<html><body>Active Role</body></html>"
