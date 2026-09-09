@@ -3,11 +3,14 @@ SQLite Persistence & Job Market Telemetry Tracker for Career Surge Engine.
 Manages career.db schema, ACID upserts, application tracking, and telemetry analytics.
 """
 
-import sqlite3
+import sys
 import os
+import sqlite3
 import json
 from typing import List, Dict, Any, Optional
 from datetime import datetime, timezone
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from execution.scrapers.models import JobPosting
 
@@ -209,3 +212,12 @@ def get_market_telemetry(db_path: str = DEFAULT_DB_PATH) -> Dict[str, Any]:
         "top_employers": top_companies,
         "ats_distribution": ats_breakdown
     }
+
+
+if __name__ == "__main__":
+    init_database()
+    telemetry = get_market_telemetry()
+    print(f"[*] Total Active Positions in Database: {telemetry['total_active_positions']}")
+    print(f"[*] Demand by Role: {telemetry['demand_by_role']}")
+    print(f"[*] Top Employers: {telemetry['top_employers']}")
+    print(f"[*] ATS Distribution: {telemetry['ats_distribution']}")

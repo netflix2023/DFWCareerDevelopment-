@@ -125,6 +125,7 @@ def generate_job_id(company: str, title: str, canonical_url: str) -> str:
     """
     Generates a deterministic unique hash ID for the position.
     Uses requisition ID if available to collapse identical requisitions across internal boards.
+    If no requisition ID is present, hashes on company and cleaned title (excluding the variable URL).
     """
     norm_company = normalize_company_brand(company).lower()
     req_id = extract_requisition_id(canonical_url)
@@ -132,7 +133,8 @@ def generate_job_id(company: str, title: str, canonical_url: str) -> str:
     if req_id:
         raw_key = f"{norm_company}::{req_id}"
     else:
-        raw_key = f"{norm_company}::{title.strip().lower()}::{canonical_url.strip().lower()}"
+        clean_title = re.sub(r"\s+", " ", title.strip().lower())
+        raw_key = f"{norm_company}::{clean_title}"
         
     return hashlib.sha256(raw_key.encode("utf-8")).hexdigest()[:16]
 

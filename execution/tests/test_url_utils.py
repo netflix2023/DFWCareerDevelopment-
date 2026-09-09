@@ -52,6 +52,13 @@ class TestUrlUtils(unittest.TestCase):
         id2 = generate_job_id("Boeing", "Intern - Systems Engineer", url2)
         self.assertEqual(id1, id2)
 
+        # Generating job IDs without a req ID should match if company and title match, even with different URLs
+        url_a = "https://startup.com/careers/ai-intern-2027?source=linkedin"
+        url_b = "https://startup.com/jobs/ai-intern-2027?source=indeed"
+        id_a = generate_job_id("TechCorp", "AI Engineer Intern", url_a)
+        id_b = generate_job_id("TechCorp", "AI Engineer Intern", url_b)
+        self.assertEqual(id_a, id_b)
+
 
     def test_sanitize_multi_location(self) -> None:
         messy_blob = "30 locationsRidley Park, PASeattle, WALong Beach, CAMesa, AZDallas, TX"

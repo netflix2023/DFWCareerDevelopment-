@@ -4,12 +4,15 @@ Formats a clean, responsive HTML summary of the Top 10 qualifying positions
 with 1-click direct apply buttons and dispatches via Resend API (or local HTML preview).
 """
 
+import sys
 import os
 import json
 import urllib.request
 import urllib.error
 from typing import List, Dict, Any
 from datetime import datetime
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from execution.storage.database import get_top_active_jobs, get_market_telemetry, DEFAULT_DB_PATH
 

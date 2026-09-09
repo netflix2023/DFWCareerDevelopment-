@@ -40,6 +40,9 @@ Discover active technical internships and entry-level SWE, Data Science, and AI 
     1. *Correctness & Regressions*: Does it resolve the root cause without breaking existing features?
     2. *Input Sanitization*: Are URLs, company names, and multi-location strings cleaned?
     3. *Type Safety & Exceptions*: Are types hinted and HTTP exceptions caught gracefully?
+* **Documentation & Modern Packages Protocol**:
+  * ALWAYS read official documentation and verify that we are using the latest, modern package versions and conventions.
+  * If documentation info is needed, connect to an MCP server, query docs, or deploy a browser subagent to fetch official documentation.
 * **Chain-of-Thought & Feynman Explanations**: Always document why and how code works in plain English.
 
 ---

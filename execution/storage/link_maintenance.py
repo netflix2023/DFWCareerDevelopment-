@@ -4,9 +4,13 @@ Scans active jobs in career.db, validates HTTP liveness concurrently,
 and marks expired/closed listings inactive while updating market telemetry.
 """
 
+import sys
+import os
 import time
 from datetime import datetime, timezone
 from typing import Dict, Any, List
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from execution.storage.database import get_db_connection, init_database, DEFAULT_DB_PATH
 from execution.scrapers.link_validator import check_url_liveness

@@ -13,6 +13,8 @@ import sys
 from typing import List, Dict, Any
 from datetime import datetime
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 from execution.scrapers.models import JobPosting
 from execution.scrapers.url_utils import (
     clean_canonical_url,
@@ -22,6 +24,7 @@ from execution.scrapers.url_utils import (
     extract_requisition_id,
     sanitize_location
 )
+from execution.scrapers.base_harvester import MarkdownFeedHarvester
 from execution.scrapers.qualification_matcher import classify_role_category, evaluate_qualification_match
 from execution.scrapers.link_validator import validate_job_links_concurrently
 from execution.scrapers.geo_config import check_location_match, get_target_metro
@@ -30,72 +33,23 @@ from execution.storage.database import upsert_jobs
 
 # Primary feed endpoints for live ATS listings (verified genuine requisition sources)
 FEED_URLS = [
+    "https://raw.githubusercontent.com/SimplifyJobs/Summer2027-Internships/dev/README.md",
+    "https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/README.md",
     "https://raw.githubusercontent.com/SimplifyJobs/Summer2025-Internships/dev/README.md",
     "https://raw.githubusercontent.com/SimplifyJobs/New-Grad-Positions/dev/README.md"
 ]
 
 
 def harvest_feed(feed_url: str) -> List[Dict[str, Any]]:
-    """
-    Harvests genuine job opportunities directly from community verified ATS tables.
-    Tracks parent company name across sub-rows (↳) to ensure accurate entity mapping.
-    """
-    print(f"[*] Harvesting stream: {feed_url}")
-    items = []
-    try:
-        req = urllib.request.Request(feed_url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            content = resp.read().decode("utf-8", errors="replace")
-            
-        trs = re.findall(r"<tr>(.*?)</tr>", content, re.DOTALL)
-        last_company = ""
-        for tr in trs[1:]:
-            tds = re.findall(r"<td>(.*?)</td>", tr, re.DOTALL)
-            if len(tds) >= 5:
-                # Check company cell - inherit parent company if this is an indented sub-row
-                comp_text = re.sub(r"<[^>]+>", "", tds[0]).strip()
-                if "↳" in comp_text or not comp_text or comp_text == "↳":
-                    company = last_company
-                else:
-                    comp_match = re.search(r">([^<]+)</a>", tds[0]) or re.search(r"<strong>([^<]+)</strong>", tds[0])
-                    company = comp_match.group(1).strip() if comp_match else comp_text
-                    last_company = company
-                    
-                title = re.sub(r"<[^>]+>", "", tds[1]).strip()
-                loc = re.sub(r"<[^>]+>", "", tds[2]).strip()
-                
-                # Extract first link from application cell (points directly to ATS)
-                apply_match = re.search(r'href="([^"]+)"', tds[3])
-                apply_url = apply_match.group(1).strip() if apply_match else ""
-                
-                # Skip if no application link found
-                if not apply_url:
-                    continue
-                    
-                age_str = re.sub(r"<[^>]+>", "", tds[4]).strip()
-                age_days = None
-                age_num = re.search(r"(\d+)", age_str)
-                if age_num:
-                    age_days = int(age_num.group(1))
-                    
-                items.append({
-                    "company": company,
-                    "title": title,
-                    "location": loc,
-                    "raw_url": apply_url,
-                    "age_days": age_days,
-                    "description": f"{title} at {company} in {loc}"
-                })
-        print(f"[+] Successfully parsed {len(items)} genuine entries from feed.")
-    except Exception as e:
-        print(f"[-] Error fetching feed {feed_url}: {e}")
-    return items
+    """Harvests genuine job opportunities using MarkdownFeedHarvester adapter with retry protection."""
+    harvester = MarkdownFeedHarvester([feed_url])
+    return harvester.harvest()
 
 
 def run_intelligence_pipeline(max_age_days: int = 7) -> List[JobPosting]:
     """Executes the full collection, normalization, qualification matching, and deduplication pipeline."""
     print("[1/4] Collecting job opportunities from direct feeds and ATS tables...")
-    raw_entries = []
+    raw_entries: List[Dict[str, Any]] = []
     
     # Ingest from high-volume verified ATS feed streams
     for feed in FEED_URLS:
@@ -103,7 +57,7 @@ def run_intelligence_pipeline(max_age_days: int = 7) -> List[JobPosting]:
         
     print(f"Total raw candidates collected: {len(raw_entries)}")
     
-    print("[2/4] Filtering, normalizing canonical URLs, and matching candidate qualifications...")
+    print("[2/4] Early filtering by geographic scope and posting recency...")
     seen_jobs: Dict[str, JobPosting] = {}
     
     for entry in raw_entries:
@@ -111,15 +65,30 @@ def run_intelligence_pipeline(max_age_days: int = 7) -> List[JobPosting]:
         if not raw_url:
             continue
             
+        # Optimization: Early Age Filter before heavy URL parsing and regex hashing
+        age = entry.get("age_days")
+        if age is not None and age > max_age_days:
+            continue
+            
+        # Optimization: Early Geographic Filter (DFW / Target Metro / Remote)
+        raw_location = entry.get("location", "")
+        is_metro, is_remote, is_state = check_location_match(raw_location)
+        if not (is_metro or is_remote or is_state):
+            continue
+            
+        is_dfw = is_metro  # backwards compatibility with models
+        
+        # Clean canonical URL and detect ATS source
         canonical_url = clean_canonical_url(raw_url)
         ats_source = detect_ats_source(canonical_url)
+        
+        # Company name resolution
         raw_company = entry.get("company", "Unknown")
         company = resolve_company_name(raw_company, canonical_url)
         title = entry.get("title", "")
-        raw_location = entry.get("location", "")
-        age = entry.get("age_days")
         description = entry.get("description", "")
         
+        # Deterministic job ID based on company + requisition_id (or title)
         job_id = generate_job_id(company, title, canonical_url)
         
         # Deduplicate identical requisitions across internal career boards
@@ -132,18 +101,6 @@ def run_intelligence_pipeline(max_age_days: int = 7) -> List[JobPosting]:
                     existing_job.apply_url = canonical_url
                 else:
                     existing_job.alternate_urls.append(canonical_url)
-            continue
-            
-        # Geographic filtering with dynamic target metro
-        is_metro, is_remote, is_state = check_location_match(raw_location)
-        is_dfw = is_metro  # backwards compatibility with models
-        
-        # We target the active metro as priority 1, Remote US as priority 2, and State as priority 3
-        if not (is_metro or is_remote or is_state):
-            continue
-            
-        # Filter for age <= max_age_days (or recent)
-        if age is not None and age > max_age_days:
             continue
             
         # Sanitize multi-location string bloat (e.g. 30 locationsRidley Park...)
@@ -181,8 +138,15 @@ def run_intelligence_pipeline(max_age_days: int = 7) -> List[JobPosting]:
     print("[4/4] Validating live HTTP link health concurrently (5 worker threads)...")
     active_jobs, dead_jobs = validate_job_links_concurrently(verified_jobs, max_workers=5, timeout=5)
     
-    # Sort: DFW first, then by match_score descending, then by age ascending
-    active_jobs.sort(key=lambda j: (j.is_dfw, j.match_score, -(j.age_days or 0)), reverse=True)
+    # Sort: DFW first, then by match_score descending, then by age ascending (missing age penalized to 99)
+    active_jobs.sort(
+        key=lambda j: (
+            j.is_dfw,
+            j.match_score,
+            -(j.age_days if j.age_days is not None else 99)
+        ),
+        reverse=True
+    )
     
     print(f"[+] Verified {len(active_jobs)} LIVE, working positions ready for immediate application!")
     return active_jobs
