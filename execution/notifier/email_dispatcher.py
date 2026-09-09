@@ -7,6 +7,9 @@ with 1-click direct apply buttons and dispatches via Resend API (or local HTML p
 import sys
 import os
 import json
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import urllib.request
 import urllib.error
 from typing import List, Dict, Any
@@ -105,9 +108,38 @@ def generate_email_html(jobs: List[Dict[str, Any]], telemetry: Dict[str, Any]) -
     """
     return html
 
+def send_via_gmail_smtp(
+    html_content: str,
+    recipient: str,
+    sender: str,
+    app_password: str,
+    subject: str
+) -> bool:
+    """Sends email directly via Google's free Gmail SMTP server (smtp.gmail.com:587)."""
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"] = sender
+        msg["To"] = recipient
+        
+        part = MIMEText(html_content, "html", "utf-8")
+        msg.attach(part)
+        
+        with smtplib.SMTP("smtp.gmail.com", 587, timeout=15) as server:
+            server.ehlo()
+            server.starttls()
+            server.login(sender, app_password)
+            server.sendmail(sender, [recipient], msg.as_string())
+            
+        print(f"[+] Email successfully delivered directly to {recipient} via Gmail SMTP!")
+        return True
+    except Exception as e:
+        print(f"[-] Gmail SMTP delivery failed: {e}")
+        return False
+
 
 def dispatch_top_jobs_email(db_path: str = DEFAULT_DB_PATH) -> bool:
-    """Dispatches the daily top 10 email via Resend API or writes local preview."""
+    """Dispatches the daily top 10 email via Gmail SMTP or Resend API or writes local preview."""
     jobs = get_top_active_jobs(limit=10, max_age_days=7, db_path=db_path)
     telemetry = get_market_telemetry(db_path)
     
@@ -124,39 +156,49 @@ def dispatch_top_jobs_email(db_path: str = DEFAULT_DB_PATH) -> bool:
         f.write(html_content)
     print(f"[+] Saved rendered email digest preview: {preview_path}")
     
-    api_key = os.getenv("RESEND_API_KEY", "").strip()
     recipient = os.getenv("NOTIFICATION_EMAIL", "neftalibautista1415@gmail.com")
-    sender = os.getenv("SENDER_EMAIL", "onboarding@resend.dev")
+    subject = f"🚀 Top 10 Tech Internships Digest ({datetime.now().strftime('%b %d')})"
+    gmail_app_pw = os.getenv("GMAIL_APP_PASSWORD", "").strip()
+    api_key = os.getenv("RESEND_API_KEY", "").strip()
     
-    if not api_key:
-        print(f"[*] RESEND_API_KEY is not set. Skipped remote dispatch; local preview rendered at {preview_path}.")
-        return True
+    # Priority 1: Free Native Gmail SMTP (zero external services needed)
+    if gmail_app_pw:
+        sender = os.getenv("GMAIL_SENDER", recipient)
+        print(f"[*] Dispatching Top 10 email directly to {recipient} via Gmail SMTP...")
+        return send_via_gmail_smtp(html_content, recipient, sender, gmail_app_pw, subject)
         
-    print(f"[*] Dispatching Top 10 email to {recipient} via Resend API...")
-    payload = {
-        "from": sender,
-        "to": [recipient],
-        "subject": f"🚀 Top 10 Tech Internships Digest ({datetime.now().strftime('%b %d')})",
-        "html": html_content
-    }
-    
-    try:
-        req = urllib.request.Request(
-            RESEND_API_URL,
-            data=json.dumps(payload).encode("utf-8"),
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json"
-            },
-            method="POST"
-        )
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            status = resp.getcode()
-            print(f"[+] Email successfully dispatched via Resend API (HTTP {status})!")
-            return True
-    except Exception as e:
-        print(f"[-] Failed to dispatch email via Resend API: {e}")
-        return False
+    # Priority 2: Resend API
+    if api_key:
+        sender = os.getenv("SENDER_EMAIL", "onboarding@resend.dev")
+        print(f"[*] Dispatching Top 10 email to {recipient} via Resend API...")
+        payload = {
+            "from": sender,
+            "to": [recipient],
+            "subject": subject,
+            "html": html_content
+        }
+        try:
+            req = urllib.request.Request(
+                RESEND_API_URL,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json"
+                },
+                method="POST"
+            )
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                status = resp.getcode()
+                print(f"[+] Email successfully dispatched via Resend API (HTTP {status})!")
+                return True
+        except Exception as e:
+            print(f"[-] Failed to dispatch email via Resend API: {e}")
+            return False
+
+    print(f"[*] Neither GMAIL_APP_PASSWORD nor RESEND_API_KEY is configured in .env.")
+    print(f"    Saved local HTML preview at {preview_path}.")
+    print(f"    To receive live emails directly in Gmail: add GMAIL_APP_PASSWORD to .env (generate at myaccount.google.com/apppasswords).")
+    return True
 
 
 if __name__ == "__main__":
