@@ -41,17 +41,31 @@
   - [x] 5.2 Decouple geographic targeting via `execution/scrapers/geo_config.py` (`TARGET_METRO`)
   - [x] 5.3 Purge synthetic/placeholder seed lists; enforce 100% genuine direct ATS requisition links
 
-- [x] **Module 6: Daily Email Digest & Code Review Protocol**
+- [x] **Module 6: Daily Email Digest & Native Gmail Delivery**
   - [x] 6.1 Build `execution/notifier/email_dispatcher.py` with responsive HTML template and Resend API
-  - [x] 6.2 Render clean summary table of Top 10 positions with direct 1-click apply buttons
-  - [x] 6.3 Build CodeRabbit-style static code quality and security reviewer (`execution/review/code_review.py`)
+  - [x] 6.2 Add free native Gmail SMTP support (`smtp.gmail.com:587`) for zero-cost direct email delivery
+  - [x] 6.3 Render clean summary table of Top 10 positions with direct 1-click apply buttons
+  - [x] 6.4 Transition from custom script to official **CodeRabbit GitHub App** for automated PR review
 
 
-- [ ] **Module 7: Multi-Persona Resume Tailoring Engine (Experiment 2)**
-  - [ ] 7.1 Map job roles to foundational personas (`AI/ML`, `Software Engineering`, `Data Platform`)
-  - [ ] 7.2 Implement verified bullet point selector and reorderer targeting matching skills
-  - [ ] 7.3 Export top 3 tailored resumes in clean Markdown (`.md`) format
+- [ ] **Phase 2: Pillar 2 — Tailoring Personas Beyond Keyword Stuffing (Module 7)**
+  - [ ] 7.1 **Role Persona Clustering (Vector Mapping)**:
+    - [ ] 7.1a Branch `feature/vector-fastembed`: Local CPU sentence-transformers vector embeddings
+    - [ ] 7.1b Branch `feature/vector-qdrant`: Persistent Dockerized Qdrant/pgvector integration
+  - [ ] 7.2 **Semantic Claim Linter**: Deterministic linter flagging weak claims and highlighting metrics (throughput, latency, volume)
+  - [ ] 7.3 **Differential Resume Generation**:
+    - [ ] 7.3a Branch `feature/resume-typst`: Blazing-fast Typst compiler producing ATS-verified vector PDFs
+    - [ ] 7.3b Branch `feature/resume-html-pdf`: Tailwind/HTML templates rendered via Headless Chromium
 
-- [ ] **Module 8: Cloud Automation & GitHub Sync**
-  - [ ] 8.1 Initialize GitHub Actions workflow `.github/workflows/daily_pipeline.yml` (7:00 AM CDT cron)
-  - [ ] 8.2 Push cleanly to private repository `career-surge-engine` with PM approval
+
+- [ ] **Phase 2: Cloud Automation & GitHub Sync (Module 8)**
+  - [ ] 8.1 Connect remote repository `netflix2023/career-surge-engine` and sync `main`
+  - [ ] 8.2 Install official CodeRabbit GitHub App on repository for automated code and design PR reviews
+  - [ ] 8.3 Initialize GitHub Actions workflow `.github/workflows/daily_pipeline.yml` (7:00 AM CDT cron)
+
+
+- [ ] **Phase 3: Pillar 1 & Pillar 3 — Market Timing Arbitrage & Smart Apply**
+  - [ ] 9.1 **Direct ATS API Harvesters**: Implement `AshbyApiHarvester` (GraphQL) and `GreenhouseApiHarvester` (JSON REST)
+  - [ ] 9.2 **Temporal Trend Analytics & First-Mover Index**: Track company posting cadence and shelf-life / ghost job alerts
+  - [ ] 9.3 **Manifest V3 Chrome Extension** (`feature/smart-apply-extension`): Natural typing pacing, form pre-fill, human final-click
+  - [ ] 9.4 **STAR-Method Question Synthesis**: Local RAG grounded in candidate project documentation for bespoke application questions
