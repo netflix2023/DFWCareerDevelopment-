@@ -1,7 +1,7 @@
 """Unit tests for transparent weighted qualification matcher."""
 
 import unittest
-from execution.scrapers.qualification_matcher import (
+from execution.prototype.scrapers.qualification_matcher import (
     evaluate_qualification_match,
     classify_role_category
 )

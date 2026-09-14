@@ -14,7 +14,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from execution.scrapers.url_utils import resolve_company_name
+from execution.prototype.scrapers.url_utils import resolve_company_name
 
 
 class BaseHarvester(ABC):

@@ -2,8 +2,8 @@
 
 import unittest
 from unittest.mock import patch, MagicMock
-from execution.scrapers.link_validator import check_url_liveness, validate_job_links_concurrently
-from execution.scrapers.models import JobPosting
+from execution.prototype.scrapers.link_validator import check_url_liveness, validate_job_links_concurrently
+from execution.prototype.scrapers.models import JobPosting
 
 
 class TestLinkValidator(unittest.TestCase):

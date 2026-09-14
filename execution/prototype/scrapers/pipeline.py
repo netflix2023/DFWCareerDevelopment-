@@ -13,10 +13,10 @@ import sys
 from typing import List, Dict, Any
 from datetime import datetime
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 
-from execution.scrapers.models import JobPosting
-from execution.scrapers.url_utils import (
+from execution.prototype.scrapers.models import JobPosting
+from execution.prototype.scrapers.url_utils import (
     clean_canonical_url,
     detect_ats_source,
     generate_job_id,
@@ -24,11 +24,11 @@ from execution.scrapers.url_utils import (
     extract_requisition_id,
     sanitize_location
 )
-from execution.scrapers.base_harvester import MarkdownFeedHarvester
-from execution.scrapers.qualification_matcher import classify_role_category, evaluate_qualification_match
-from execution.scrapers.link_validator import validate_job_links_concurrently
-from execution.scrapers.geo_config import check_location_match, get_target_metro
-from execution.storage.database import upsert_jobs
+from execution.prototype.scrapers.base_harvester import MarkdownFeedHarvester
+from execution.prototype.scrapers.qualification_matcher import classify_role_category, evaluate_qualification_match
+from execution.prototype.scrapers.link_validator import validate_job_links_concurrently
+from execution.prototype.scrapers.geo_config import check_location_match, get_target_metro
+from execution.prototype.storage.database import upsert_jobs
 
 
 # Primary feed endpoints for live ATS listings (verified genuine requisition sources)
@@ -204,8 +204,8 @@ if __name__ == "__main__":
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
         
-    output_json = os.path.join("output", "scraped_jobs", "dfw_qualifying_jobs.json")
-    output_csv = os.path.join("output", "clean_csvs", "dfw_qualifying_jobs.csv")
+    output_json = os.path.join("execution", "output", "scraped_jobs", "dfw_qualifying_jobs.json")
+    output_csv = os.path.join("execution", "output", "clean_csvs", "dfw_qualifying_jobs.csv")
     
     matched_jobs = run_intelligence_pipeline(max_age_days=7)
     save_deliverables(matched_jobs, output_json, output_csv)

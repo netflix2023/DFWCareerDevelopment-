@@ -10,7 +10,7 @@ import re
 from typing import List, Dict, Any
 
 
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 EXECUTION_DIR = os.path.join(ROOT_DIR, "execution")
 LOG_PATH = os.path.join(ROOT_DIR, ".tmp", "code_review.log")
 

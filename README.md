@@ -118,7 +118,7 @@ This repository is public for the tech club and community:
 
 3. **Run the ATS Ingestion & Link Validator Pipeline**:
    ```bash
-   python execution/scrapers/pipeline.py
+   python execution/prototype/scrapers/pipeline.py
    ```
 
 ---

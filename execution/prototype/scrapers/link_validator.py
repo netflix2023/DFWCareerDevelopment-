@@ -11,7 +11,7 @@ import re
 from typing import Tuple, List, Dict, Any
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from execution.scrapers.models import JobPosting
+from execution.prototype.scrapers.models import JobPosting
 
 
 CLOSED_INDICATORS = [

@@ -170,7 +170,12 @@ To showcase industry-standard **AI + Full-Stack Software Engineering** skills:
   * **Add random jitter**: Insert random delays (`time.sleep(random.uniform(2, 5))`) between requests.
 * **Canary E (Resume Truth Guard)**: Ground all tailored bullets and STAR answers strictly in candidate project documentation. Never invent unheld skills.
 * **Canary F (Submission Velocity Guard)**: Never autofill forms instantaneously. Simulate human keystroke delays to avoid bot blacklists.
-* **Canary G (Git Safety Guard)**: Never force-push `main`. All GitHub pushes require explicit PM authorization.
+* **Canary G (Git Safety Guard - Commits & Pushes)**:
+  * **Zero Autonomous Git Actions**: The Engineer NEVER commits or pushes code without explicit, written Product Manager (Neftali) approval.
+  * Never force-push `main`. All commits, branches, and pushes require explicit PM authorization.
+* **Canary H (Flexible Tech Stack Guard)**:
+  * Tech recommendations (FastAPI, React/TS, Typst, PostgreSQL, Qdrant, Chrome Extension) are **flexible candidate proposals, NOT set in stone**.
+  * They serve as a modular menu of high-ROI technologies that can be swapped, adapted, or redesigned whenever Neftali decides.
 
 ---
 

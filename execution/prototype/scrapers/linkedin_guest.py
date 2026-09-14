@@ -12,10 +12,10 @@ import time
 from typing import List, Dict, Any, Optional
 from datetime import datetime, timezone
 
-from execution.scrapers.models import JobPosting
-from execution.scrapers.url_utils import clean_canonical_url, generate_job_id, resolve_company_name
-from execution.scrapers.qualification_matcher import classify_role_category, evaluate_qualification_match
-from execution.scrapers.geo_config import check_location_match, get_target_metro
+from execution.prototype.scrapers.models import JobPosting
+from execution.prototype.scrapers.url_utils import clean_canonical_url, generate_job_id, resolve_company_name
+from execution.prototype.scrapers.qualification_matcher import classify_role_category, evaluate_qualification_match
+from execution.prototype.scrapers.geo_config import check_location_match, get_target_metro
 
 
 GUEST_SEARCH_URL = "https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search"

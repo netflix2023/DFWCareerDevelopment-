@@ -1,7 +1,7 @@
 """Unit tests for URL utilities, company normalization, and deterministic ID hashing."""
 
 import unittest
-from execution.scrapers.url_utils import (
+from execution.prototype.scrapers.url_utils import (
     clean_canonical_url,
     detect_ats_source,
     resolve_company_name,
