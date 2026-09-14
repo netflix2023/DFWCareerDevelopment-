@@ -29,10 +29,12 @@
 - [x] **Native Gmail SMTP Dispatcher**: Updated [execution/notifier/email_dispatcher.py](file:///g:/My%20Drive/AntigravityProjects/Career/execution/notifier/email_dispatcher.py) with standard library SMTP; ready for `GMAIL_APP_PASSWORD`.
 
 ### Next Session Handoff & Objectives:
-- [x] **Connected GitHub Remote**: Linked `origin` to `https://github.com/netflix2023/DFWCareerDevelopment-.git` and pushed `main` successfully. Windows Git Credential Manager authenticated.
-- Review [directives/FUTURE_ROADMAP_AND_ARCHITECTURE_PLAN.md](file:///g:/My%20Drive/AntigravityProjects/Career/directives/FUTURE_ROADMAP_AND_ARCHITECTURE_PLAN.md).
-- Install CodeRabbit GitHub App on `netflix2023/DFWCareerDevelopment-`.
-- Branch `feature/resume-typst` vs `feature/resume-html-pdf` for Module 7 resume generation.
+- [x] **Connected GitHub Remote**: Linked `origin` to `https://github.com/netflix2023/DFWCareerDevelopment-.git` and pushed `main` successfully. Tagged `v0.1.0-prototype`.
+- [x] **Agile Architecture Formalized (4 Modules)**: Restructured project blueprint into 4 core agile modules (Ingestion, Resumes, Automation, Market Telemetry).
+- [x] **PM Sovereignty & Git Worktree Protocol**: Updated [AGENTS.md](file:///g:/My%20Drive/AntigravityProjects/Career/AGENTS.md) requiring the Agent to always ask clarifying questions (PM owns all decisions) and establishing Git Worktree guidelines for parallel experiments.
+- [x] **Public Club Privacy & Safety**: Added customizable [PERSONA_TEMPLATE.md](file:///g:/My%20Drive/AntigravityProjects/Career/directives/user_stories/PERSONA_TEMPLATE.md) and enforced `.gitignore` zero-leak guard.
+- Awaiting PM choice on interface for Module 3 (Manifest V3 Side Panel vs React/TS Web Dashboard vs Hybrid).
+- Begin Module 2 Typst differential resume compiler.
 
 
 

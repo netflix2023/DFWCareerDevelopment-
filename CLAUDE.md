@@ -1,8 +1,9 @@
 # September Surge Fast-Track: AI Agent Instructions & Master Architecture
 
 > **Project Title**: September Surge Fast-Track: Automated Career Prep, Job Scraper & Resume Tailoring Engine  
-> **Environment**: Antigravity IDE | Chromebook Linux + Google Drive Persistence  
-> **Collaboration Model**: **Neftali = Product Manager (Design & The What)** | **Agent = Senior Software Engineer (Code & The How)**  
+> **Repository**: `https://github.com/netflix2023/DFWCareerDevelopment-`  
+> **Environment**: Antigravity IDE | Windows PowerShell + Google Drive Persistence  
+> **Collaboration Model**: **Neftali = Product Manager (Design, Product & The What)** | **Agent = Senior Software Engineer (Code, Testing & The How)**  
 > **Synchronized**: `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md`
 
 ---
@@ -10,148 +11,183 @@
 ## 0. Mission & Non-Negotiable Principles
 
 ### Primary Mission
-Discover active technical internships and entry-level SWE, Data Science, and AI roles **within hours of posting**, parse qualifications based on the **Resume Guide 2.0** standard, and auto-tailor resumes so applicants apply **within 24–48 hours before automated ATS candidate caps hit**.
+Discover active technical internships and entry-level SWE, Data Science, and AI roles **within hours of posting**, parse qualifications based on the **Resume Guide 2.0** standard, auto-tailor authentic resumes, and synthesize custom application answers so applicants apply **within 24–48 hours before automated ATS candidate caps hit**.
 
 ### Non-Negotiable Principles
-1. **Speed to Application (First-In, First-Reviewed)**: Beat ATS applicant volume caps (first 50–100 candidates get screened). Rapid discovery (< 24–48 hrs) is paramount.
+1. **Speed to Application (First-In, First-Reviewed)**: Beat ATS applicant volume caps (first 50–100 candidates get screened). Rapid discovery (< 24–48 hrs) and first-mover timing are paramount.
 2. **Maximize True Keyword Match (Zero Hallucinations)**: Extract real qualifications from JDs to target a 75% keyword match. NEVER fabricate or invent candidate skills.
 3. **No-Spam & Clean Applications**: Strict human review gate before any resume export or application submission. Quality over robotic spam.
-4. **Karpathy Simplicity**: "As complex as needed, as simple as possible." Plain JSON, SQLite, and direct HTTP REST endpoints over brittle headless browsers.
-5. **Strict Plan Approval Gate**: The Software Engineer MUST ALWAYS draft an implementation plan and obtain explicit Product Manager (Neftali) approval before modifying production code or schemas. Once a plan is approved, the Engineer builds and verifies that module autonomously without asking permission for routine coding steps.
-6. **Module-by-Module Delivery**: Deliver and test ONE isolated module at a time. Never combine multiple unfinished features.
-7. **Novice-Friendly Technical Clarity**: Explain technical concepts in clear, simple language (Feynman style) so the Product Manager easily understands the codebase and system mechanics.
+4. **Karpathy Simplicity**: "As complex as needed, as simple as possible." Direct HTTP REST/JSON endpoints over brittle headless browsers whenever possible.
+5. **Strict Product Manager Decision Gate**: 
+   * **ALL architectural, design, product, and interface decisions belong strictly to Neftali (Product Manager).**
+   * The Software Engineer **NEVER** makes autonomous product decisions or assumptions.
+   * When technical choices exist (e.g. Chrome Extension vs Web Page vs CLI, or Typst vs HTML-to-PDF), the Engineer **MUST ALWAYS ask clarifying questions** and present trade-offs for Neftali's explicit decision.
+   * The Engineer **ONLY automates** code building, testing, error-logging, and terminal command execution once approved.
+6. **Public Club Safety Guard (Canary C Protection)**:
+   * This repository is **public** for Neftali's AI Club and student tech community.
+   * **Absolute Zero-Leak Rule**: Never commit private API keys (`.env`), database caches (`career.db`), or personal identifying resumes.
+   * All candidate profiles in the codebase must remain generic templates (`directives/user_stories/PERSONA_TEMPLATE.md`) or be customized locally without being tracked in Git.
+7. **Module-by-Module Agile Delivery**: Deliver and test ONE isolated module at a time. Never combine multiple unfinished features.
+8. **Novice-Friendly Technical Clarity (Feynman Style)**: Explain technical concepts in clear, simple language with real-world analogies so the Product Manager and club members easily understand system mechanics.
 
 ---
 
 ## 1. Team Dynamics & Engineering Workflow
 
 * **Product Manager (Neftali)**:
-  * Owns the vision, business requirements, product design, feature priorities, and "the what".
-  * Reviews and approves implementation plans and architectural decision gates.
+  * Owns the product vision, design direction, user interface choices, feature priorities, and "the what".
+  * Reviews and decides on all architectural decision gates and clarifying questions.
 * **Software Engineer (Agent)**:
-  * Owns the technical architecture, code quality, testing, error logging, and "the how".
-  * Explains technical concepts clearly for a novice, documenting the exact chain-of-thought (why and how).
+  * Owns technical architecture, code quality, unit testing, error logging, and "the how".
+  * Suggests modern technical implementations (APIs, Cloud, SQL, React, TypeScript, Vector RAG) to ensure the project looks world-class for an AI Software Engineer resume and club portfolio.
+  * Always asks clarifying questions before implementing new directions.
   * Executes approved plans step-by-step and module-by-module.
 * **Self-Annealing System (`execution/error_log.md`)**:
-  * Any runtime error, parser failure, or deduplication flaw must be recorded in `execution/error_log.md` with root-cause fixes.
+  * Any runtime error, parser failure, or rate-limit issue must be recorded in `execution/error_log.md` with root-cause fixes.
   * The Engineer must inspect this log before proposing code modifications to prevent repeating errors.
 * **Code Review Protocol (CodeRabbit Style)**:
-  * Before committing or merging code, run an automated review checking:
+  * Before committing or merging code, run review checking:
     1. *Correctness & Regressions*: Does it resolve the root cause without breaking existing features?
     2. *Input Sanitization*: Are URLs, company names, and multi-location strings cleaned?
     3. *Type Safety & Exceptions*: Are types hinted and HTTP exceptions caught gracefully?
-* **Documentation & Modern Packages Protocol**:
-  * ALWAYS read official documentation and verify that we are using the latest, modern package versions and conventions.
-  * If documentation info is needed, connect to an MCP server, query docs, or deploy a browser subagent to fetch official documentation.
-* **Chain-of-Thought & Feynman Explanations**: Always document why and how code works in plain English.
 
 ---
 
-## 2. Storage, Worktree & Git Management Model
+## 2. Storage, Git Worktree & Branching Architecture
 
-* **Drive Persistence**: Root is `/home/neftalibautista1415/AntigravityProjects/Career` (Windows: `g:\My Drive\AntigravityProjects\Career`).
-* **Directives Stay in Root**: All blueprints, schemas, source guides, and candidate personas live centrally in `directives/`.
-* **Git as Local Version Control System**: Git tracks every step locally. Every feature or fix is developed cleanly on a dedicated branch or worktree to guarantee that `main` is never broken.
-* **Protected GitHub Sync**: `.gitignore` strictly protects `.env`, credentials, local SQLite caches (`career.db`), and Drive artifacts. Remote pushing to `career-surge-engine` requires explicit PM approval.
+### A. Core Storage & Sync Model
+* **Drive Persistence**: `g:\My Drive\AntigravityProjects\Career` (Chromebook: `/home/neftalibautista1415/AntigravityProjects/Career`).
+* **Directives Stay in Root**: All blueprints, schemas, source guides, and persona templates live centrally in `directives/`.
+* **Git Remote**: `https://github.com/netflix2023/DFWCareerDevelopment-.git` (`main` branch).
+* **Protected Public Sync**: `.gitignore` strictly protects `.env`, secrets, local SQLite caches (`career.db`), logs, and private candidate artifacts.
+
+### B. Git Worktree Architecture for Competing Implementations
+When developing separate implementation paths or competing technical experiments (e.g., comparing a **Chrome Side Panel** vs an **AI Club Web Page**, or **Typst vector PDF** vs **HTML-to-PDF**), we use **Git Worktrees** instead of switching branches in place.
+
+* **Why Git Worktrees?**  
+  Standard `git checkout` constantly overwrites files in your working folder, forcing you to stash, rebuild, or re-install dependencies. Git Worktrees attach multiple branches to **separate simultaneous folders** on your disk linked to the same `.git` database. You can test two completely different interfaces side-by-side without file collisions!
+
+* **Standard Worktree Directory Layout**:
+  ```
+  AntigravityProjects/
+  ├── Career/                 # Main branch (Core engine, directives, pipeline)
+  ├── Career-web/             # Worktree: feature/club-web-dashboard (React + TypeScript)
+  └── Career-extension/       # Worktree: feature/smart-apply-extension (Manifest V3)
+  ```
+
+* **Standard Worktree Commands**:
+  ```bash
+  # 1. Create a new worktree folder for an experimental feature branch:
+  git worktree add ../Career-web -b feature/club-web-dashboard
+
+  # 2. View all active worktrees and their branches:
+  git worktree list
+
+  # 3. Clean up and remove a worktree when merged or finished:
+  git worktree remove ../Career-web
+  ```
 
 ---
 
-## 3. Resume Tailoring Engine: Two Planned Experiments
+## 3. The 4 Master Agile Modules
 
-The engine will support two distinct tailoring architectures:
-1. **Experiment 2 (Modular Multi-Persona System) — Priority 1 (Current Focus)**:
-   * Maintains distinct pre-built personas (`PERSONA_AI_ENGINEER_INTERN_DFW.md`, `PERSONA_SWE_INTERN_DFW.md`, `PERSONA_DATA_ANALYST_DFW.md`).
-   * Routes each incoming job description to the best-matching baseline persona, then selects and re-orders verified bullet points to highlight matching skills in clean Markdown (`.md`) format.
-2. **Experiment 1 (Direct Title Re-Alignment) — Priority 2**:
-   * Takes a single master resume and dynamically alters bullet points to mirror target job titles. Tested after Experiment 2.
+The project is architected into 4 clean, independent modules:
 
----
+```mermaid
+flowchart TD
+    subgraph M1["Module 1: Direct ATS Ingestion & Notifications (v0.1.0-prototype)"]
+        M1A["Direct ATS Polling (Greenhouse, Lever, Ashby, Workday)"]
+        M1B["Unauthenticated Guest Scraping (Jitter 2-5s, Batch 25-50)"]
+        M1C["Live Link Validator & Email Dispatcher (Gmail SMTP / Resend)"]
+    end
 
-## 4. Current Repository Blueprint
+    subgraph M2["Module 2: Resume Builder, Persona Matcher & Claim Linter"]
+        M2A["Role Persona Clustering (Backend, AI/ML, Data Platform, Cloud)"]
+        M2B["Deterministic Claim Linter (Quantify QPS, latency, data scale)"]
+        M2C["Differential Generator (Markdown -> Typst / Vector PDF)"]
+    end
 
+    subgraph M3["Module 3: Application Automation & Smart Apply"]
+        M3A["STAR-Method RAG (Bespoke Application Question Synthesis)"]
+        M3B["Natural Keystroke Pacing (< 50 fields / human cadence)"]
+        M3C["Interface Gate: Chrome Side Panel vs AI Club Web Dashboard vs Hybrid"]
+    end
+
+    subgraph M4["Module 4: DFW Market Research & Trend Analysis"]
+        M4A["Temporal Cadence Modeling (DFW Company Refresh Schedules)"]
+        M4B["First-Mover Index (< 15-30 min discovery)"]
+        M4C["Ghost Job & Stale Requisition Detection"]
+    end
+
+    M1 --> M2
+    M1 --> M4
+    M2 --> M3
 ```
-Career/
-├── AGENTS.md                         # Master Agent reference & PM agreement (this file)
-├── .env                              # Local environment keys (ignored by git)
-├── .env.example                      # Configuration template
-├── .gitignore                        # Strict guard for .env, secrets, *.db, and SQLite
-├── todo.md                           # Agile task hierarchy checklist
-├── progress_log.md                   # Living session state and handoff notes
-├── directives/                       # Central blueprints & personas (Root only)
-│   ├── RESUME_GUIDE_2.0.md           # Verbatim Resume Guide 2.0 master specification
-│   ├── RESUME_FORMAT_TEMPLATE_AND_EXAMPLES.md # Exact visual layout & live examples
-│   ├── KEYWORD_MATRIX.md             # Curated SWE & AI Intern qualification taxonomy
-│   ├── sources/
-│   │   └── TARGET_PLATFORMS.md       # Categorized job platforms matrix (Tier 1-4)
-│   └── user_stories/
-│       ├── PERSONA_SWE_INTERN_DFW.md # DFW SWE Candidate Persona
-│       └── PERSONA_AI_ENGINEER_INTERN_DFW.md # DFW AI Candidate Persona
-├── execution/                        # Core Python pipeline
-│   ├── error_log.md                  # Self-annealing issue ledger (Issues documented & fixed)
-│   ├── scrapers/                     # ATS and feed ingestion modules
-│   │   ├── models.py                 # JobPosting clean dataclass schema
-│   │   ├── url_utils.py              # Canonical URL cleaner & ATS detector
-│   │   ├── qualification_matcher.py  # Weighted qualification matching engine
-│   │   ├── link_validator.py         # Concurrent 5-thread live URL validator
-│   │   └── pipeline.py               # Main ATS harvesting & normalization script
-│   ├── parsers/                      # JD qualification and 75% keyword extractors
-│   ├── tailor/                       # Resume Guide 2.0 What-How-Result bullet formatters
-│   ├── notifier/                     # Daily Top 10 email dispatcher (Resend API)
-│   └── tests/                        # TDD unit and integration test suites
-└── output/                           # Generated runtime outputs
-    ├── scraped_jobs/                 # Raw/normalized JSON job payloads
-    ├── clean_csvs/                   # Structured deduplicated spreadsheets
-    └── tailored_resumes/             # Exported tailored resumes (Markdown format)
-```
+
+### Module 1: Job Scraper & Notification Pipeline (Sprint 1 MVP Baseline)
+* **Status**: Completed, tested, and preserved under tag `v0.1.0-prototype`.
+* **Features**: Direct ATS harvesting (Greenhouse, Lever, Ashby, Workday), location sanitization (`Dallas, TX`), live 5-thread link validator, and native Gmail SMTP morning email digest.
+
+### Module 2: Resume Builder, Persona Matcher & Differential Generator
+* **Role Persona Clustering**: Categorizes target roles into architectural archetypes (Systems/Backend, AI/ML, Data Pipeline, Cloud/DevOps). Maps candidate project embeddings into vector space.
+* **Deterministic Claim Linter**: Verifies candidate bullets against role priorities. Flags weak claims and guides quantifying engineering impact (QPS/RPS, latency p99, data scale GB/TB).
+* **Differential Resume Exporter**: Compiles clean, ATS-verified 1-page vector PDFs via Typst (no hidden tables or parser-breaking CSS).
+
+### Module 3: Application Automation & Custom Question Synthesis
+* **STAR-Method Question Synthesis**: A local RAG system grounded strictly in candidate project documentation to draft authentic, structured answers for bespoke questions (e.g., "Describe a challenging bug you fixed").
+* **Human-in-the-Loop "Review & Strap"**: Autofills standard fields with natural typing delays (jitter) to prevent bot-detection blacklisting. The user always reviews and performs the final submission click manually.
+* **Interface**: Flexible architecture supporting a Manifest V3 Chrome Side Panel, an AI Club Web Page, or a hybrid client.
+
+### Module 4: DFW Market Research & Temporal Cadence Analytics
+* **First-Mover Index**: Tracks company posting cadence to detect openings in the first 15–30 minutes before inbound caps (first 50–100 applicants) hit.
+* **Ghost Job & Shelf-Life Detection**: Cross-references requisition ID longevity, re-indexing dates, and team turnover to flag stale or abandoned listings.
+* **DFW Tech Stack Trends**: Aggregates skill demand across local tech hubs (Dallas, Plano, Irving, Richardson) to guide club members on the highest-ROI skills.
 
 ---
 
-## 5. Anti-Hallucination & Hardware Canary Guards
+## 4. Production Tech Stack (AI & Software Engineering Portfolio)
+
+To showcase industry-standard **AI + Full-Stack Software Engineering** skills:
+
+| Layer | Component | Production Stack | Purpose |
+|---|---|---|---|
+| **Layer 5: Client Layer** | Interactive Interface | **React 19 + TypeScript + Tailwind CSS** (or Chrome Manifest V3 Side Panel) | High-polish UX for AI Club members; avoids generic job-board clones. |
+| **Layer 4: Output Pipeline** | Differential Resume Compiler | **Typst CLI / Headless Chromium** | Generates pixel-perfect, ATS-verified 1-page vector PDFs. |
+| **Layer 3: AI & Vector Engine** | Archetype Clustering & STAR RAG | **Python + FastEmbed / Qdrant + LangChain** | Local embeddings for project-to-role matching; grounded STAR synthesis. |
+| **Layer 2: Data & Queue** | Persistence & Scheduling | **PostgreSQL / SQLite + Celery / Redis** | ACID transaction storage, temporal cadence modeling, and rate-limit queues. |
+| **Layer 1: Ingestion Pipeline** | Direct ATS Harvesters | **Python Asyncio + HTTP REST / GraphQL** | Polling Greenhouse, Lever, Ashby, and unauthenticated guest sources. |
+
+---
+
+## 5. Anti-Hallucination & Anti-Scraping Guards
 
 * **Canary A (Context Warning)**: Warn PM at 10–12 turns; persist active state to `progress_log.md`.
 * **Canary B (Filesystem Verification)**: Verify files physically exist before proposing edits or imports.
-* **Canary C (Credential Guard)**: Verify `.gitignore` is active and scan files for raw API keys before saving.
-* **Canary D (Scraping Rate-Limit Guard)**: On HTTP 429/403, halt, inject jittered backoff, rotate User-Agent, and fall back to public ATS JSON endpoints.
-* **Canary E (Resume Truth Guard)**: Cross-reference all generated bullets with candidate's real experience. Never invent unheld skills.
-* **Canary F (Chromebook Resource Guard)**: Avoid memory-heavy headless browsers. Use lightweight direct HTTP requests.
+* **Canary C (Public Security & Privacy Guard)**: Verify `.gitignore` is active and scan files for raw API keys or personal candidate PII before committing.
+* **Canary D (Guest Scraping Protocol)**:
+  * **Never scrape logged in**: Never feed personal session cookies into scripts. Always use unauthenticated/guest endpoints.
+  * **Keep batch sizes small**: Fetch 25–50 listings every 6–12 hours. Never hammer endpoints with 2,000 requests.
+  * **Add random jitter**: Insert random delays (`time.sleep(random.uniform(2, 5))`) between requests.
+* **Canary E (Resume Truth Guard)**: Ground all tailored bullets and STAR answers strictly in candidate project documentation. Never invent unheld skills.
+* **Canary F (Submission Velocity Guard)**: Never autofill forms instantaneously. Simulate human keystroke delays to avoid bot blacklists.
 * **Canary G (Git Safety Guard)**: Never force-push `main`. All GitHub pushes require explicit PM authorization.
 
 ---
 
-## 6. Approved PM Architectural Decisions (The 15 Decisions)
+## 6. Approved PM Architectural Alignment
 
-> [!NOTE]
-> Recorded architectural alignment between Product Manager (Neftali) and Software Engineer (Agent):
-
-### Architecture & Pipeline Ingestion
-1. **Garbage Company Name Resolution**: **APPROVED** — Extract the company brand from the subdomain (e.g., `boeing.wd1...` $\to$ `Boeing`) using a title-cased fallback mapping when the upstream scraper injects an indent arrow (`↳`) or empty string.
-2. **Workday Requisition Deduplication**: **APPROVED** — Pick the first primary board URL (preferring `EXTERNAL_CAREERS` or standard carrier domains), store secondary board links in `alternate_urls`, and hash the unique requisition ID (`company::requisition_id`).
-3. **LinkedIn Guest Ingest**: **APPROVED** — Cap queries at 25 results per search term to avoid Cloudflare bot-challenges on shared IP pools.
-4. **Indeed Aggregator**: **APPROVED** — Query Indeed via date-sorted RSS feeds and Google Jobs endpoints. Keep `JobSpy` strictly as an opt-in fallback (`--enable-jobspy`).
-5. **Live Link Validator Concurrency**: **APPROVED** — Run concurrently with 5 worker threads bounded by a 5-second connection timeout.
-
-### Qualification Matching & Scoring
-6. **Weighted Skill Scoring**: **APPROVED** — Simple, transparent weighted scoring: Core Technical Pillars (Python, RAG, FastAPI, SQL, Docker) carry weight $1.5\times$; Secondary tools (Git, frontend) carry weight $0.5\times$. Explain simply for novices.
-7. **Redundant Keyword Deduplication**: **APPROVED** — Count as a single higher-tier match. Sort target patterns by token length descending and consume parent tokens (e.g., matching "data analytics" suppresses the duplicate match on "analytics").
-8. **Role Precedence**: **APPROVED** — Default to **AI/ML & GenAI** priority when a role touches both AI and general data analytics.
-
-### Cleanliness & Deliverables
-9. **Multi-Location Sanitization**: **APPROVED** — Shorten multi-city blobs to `"Dallas, TX (Multi-Location)"` (or the matching DFW city).
-10. **Application Freshness Hard Cap**: **APPROVED** — Exclude postings older than 7 days from the daily email dispatch and CSV, but retain them in SQLite `career.db` for deduplication history.
-11. **Applicant Count Filtering & Job Market Telemetry**: **APPROVED** — Place high-applicant jobs (>100) at the bottom with a warning badge (⚠️ `>100 Applicants`). Build a telemetry profile tracking role demand, time-of-day posted, and time-to-close.
-
-### Daily Runner, Email & Tailoring
-12. **Daily Email Layout**: **APPROVED** — Clean summary table of the **Top 10 positions** with 1-click direct apply links, linking to the full CSV/dashboard.
-13. **Resume Tailoring Experiment Priority**: **APPROVED** — Implement **Experiment 2 (Multi-Persona Routing)** first.
-14. **Tailored Resume File Format**: **APPROVED** — Export tailored resumes as clean **Markdown (.md)** files.
-15. **Private GitHub Setup**: **APPROVED** — Name the repository `career-surge-engine`.
-
-
----
-
-## 7. Living Current State & Handoff Protocol
-
-### Current Sprint Snapshot
-* **Active Sprint**: Sprint 1 — ATS Pipeline Hardening, Normalization Bug Fixes & Link Validation
-* **Status**: 4 Core Bugs cataloged in `execution/error_log.md`. 27 positions harvested.
-* **Immediate Next Step**: Await PM feedback on the 15 alignment questions, then execute the bug fixes in `url_utils.py` and `qualification_matcher.py` step-by-step.
+1. **Company Name Resolution**: Title-cased subdomain fallback when upstream scraper injects arrows (`↳`) or empty strings.
+2. **Workday Deduplication**: Deduplicate on `f"{company}::{requisition_id}"` across boards.
+3. **LinkedIn Guest Ingest**: Cap at 25 results per search term with unauthenticated guest queries and random jitter.
+4. **Indeed Aggregator**: Date-sorted RSS/Google Jobs with `JobSpy` strictly as an opt-in fallback.
+5. **Live Link Validator**: 5 worker threads with 5-second timeout and HEAD-then-GET check.
+6. **Weighted Skill Scoring**: Core Technical Pillars carry 1.5x weight; secondary tools carry 0.5x weight.
+7. **Redundant Keyword Deduplication**: Longer phrases suppress child token matches (e.g. "data analytics" suppresses "analytics").
+8. **Role Precedence**: Favor AI/ML & GenAI over generic data analytics.
+9. **Multi-Location Sanitization**: Normalize to `"Dallas, TX (Multi-Location)"`.
+10. **Application Freshness Hard Cap**: 7-day hard cap for active dispatches; older jobs retained in DB for telemetry.
+11. **Applicant Count Filtering**: Jobs with >100 applicants placed at bottom with a warning badge.
+12. **Notification Dispatcher**: Clean Top 10 digest with direct apply links via free native Gmail SMTP.
+13. **Resume Tailoring Architecture**: Implement modular multi-persona routing and Typst differential compilation.
+14. **Git Worktree Standard**: Use isolated Git Worktrees for parallel competing technical experiments.
+15. **Public Safety & Privacy**: Strict `.gitignore` enforcement for club open-source publication.
