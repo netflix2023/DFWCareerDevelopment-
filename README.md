@@ -123,5 +123,5 @@ This repository is public for the tech club and community:
 
 ---
 
-## 📄 License & Collaboration
-Maintained by **Neftali** (Product Manager) & **Antigravity AI Engineer**. Distributed under the MIT License.
+## 📄 License & Community
+Maintained by the Student AI Club & Engineering Community. Distributed under the MIT License.

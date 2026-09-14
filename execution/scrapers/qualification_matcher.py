@@ -1,5 +1,5 @@
 """
-Candidate qualification matching engine grounded strictly in Neftali's resume.
+Candidate qualification matching engine grounded strictly in verified candidate profiles.
 Designed for maximum simplicity, transparency, and accuracy (Karpathy simplicity).
 """
 

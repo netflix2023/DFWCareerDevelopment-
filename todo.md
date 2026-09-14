@@ -45,7 +45,7 @@
 ---
 
 ### ⚪ Module 3: Application Automation & Smart Apply
-*Status: Upcoming Phase (Awaiting PM Interface Decision: Web Page vs Extension vs Hybrid)*
+*Status: Approved PM Direction — Option C (Hybrid: React Web Dashboard first, Companion Chrome Extension second)*
 
 - [ ] **3.1 STAR-Method Custom Question Synthesis**
   - [ ] Local RAG grounded strictly in candidate project documentation
@@ -53,10 +53,9 @@
 - [ ] **3.2 Submission Velocity & Anti-Bot Protection**
   - [ ] Natural typing pacing (jittered delays) across long-form answer boxes
   - [ ] Maximum 50 fields per form cycle to avoid ATS velocity blacklisting
-- [ ] **3.3 Client Interface Implementation (PM Gate)**
-  - [ ] *Option A*: Manifest V3 Chrome Extension & Side Panel (`chrome.sidePanel`) with human final-click
-  - [ ] *Option B*: Modern AI Club Web Dashboard (React 19 + TypeScript + Tailwind CSS)
-  - [ ] *Option C*: Hybrid (React Web Dashboard + Companion Chrome Extension)
+- [ ] **3.3 Client Interface: Hybrid Architecture (PM Approved)**
+  - [ ] *Primary Hub*: AI Club Web Dashboard (React 19 + TypeScript + Tailwind CSS)
+  - [ ] *Companion Plugin*: Manifest V3 Chrome Extension & Side Panel for on-page form pre-fill
 
 ---
 

@@ -33,8 +33,9 @@
 - [x] **Agile Architecture Formalized (4 Modules)**: Restructured project blueprint into 4 core agile modules (Ingestion, Resumes, Automation, Market Telemetry).
 - [x] **PM Sovereignty & Git Worktree Protocol**: Updated [AGENTS.md](file:///g:/My%20Drive/AntigravityProjects/Career/AGENTS.md) requiring the Agent to always ask clarifying questions (PM owns all decisions) and establishing Git Worktree guidelines for parallel experiments.
 - [x] **Public Club Privacy & Safety**: Added customizable [PERSONA_TEMPLATE.md](file:///g:/My%20Drive/AntigravityProjects/Career/directives/user_stories/PERSONA_TEMPLATE.md) and enforced `.gitignore` zero-leak guard.
-- Awaiting PM choice on interface for Module 3 (Manifest V3 Side Panel vs React/TS Web Dashboard vs Hybrid).
-- Begin Module 2 Typst differential resume compiler.
+- [x] **PM Decision - Client Interface**: Approved **Option C (Hybrid Architecture)** — React 19 + TypeScript + Tailwind CSS Web Dashboard as the main club hub, with a lightweight Manifest V3 Chrome Extension as a companion power tool.
+- [x] **PM Decision - GitHub Organization**: Approved 4 Milestones mapping to the 4 modules on GitHub. Issues held until planning phase concludes.
+- Next Phase: Detailed design specifications for Module 2 (Multi-Persona Resume Engine) & Web Dashboard data contracts.
 
 
 

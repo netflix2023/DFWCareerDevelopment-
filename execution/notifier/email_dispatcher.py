@@ -156,7 +156,7 @@ def dispatch_top_jobs_email(db_path: str = DEFAULT_DB_PATH) -> bool:
         f.write(html_content)
     print(f"[+] Saved rendered email digest preview: {preview_path}")
     
-    recipient = os.getenv("NOTIFICATION_EMAIL", "neftalibautista1415@gmail.com")
+    recipient = os.getenv("NOTIFICATION_EMAIL", "candidate@example.com")
     subject = f"🚀 Top 10 Tech Internships Digest ({datetime.now().strftime('%b %d')})"
     gmail_app_pw = os.getenv("GMAIL_APP_PASSWORD", "").strip()
     api_key = os.getenv("RESEND_API_KEY", "").strip()

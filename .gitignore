@@ -6,6 +6,11 @@
 *.db
 career.db
 
+# Agent Instructions & Private Collaboration Rules
+AGENTS.md
+GEMINI.md
+CLAUDE.md
+
 # Agent Transient Sandbox & Logs (Code testing grounds)
 .tmp/
 *.log
