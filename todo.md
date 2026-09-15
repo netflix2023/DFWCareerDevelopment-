@@ -28,20 +28,28 @@
 
 ---
 
-### 🟡 Module 2: Multi-Persona Resume Builder, Claim Linter & Differential Generator
-*Status: Active Sprint (Implementation Pending PM Decisions)*
+### 🟡 Module 1: Multi-Persona Resume Builder, Neon Vector Persistence & Web Studio
+*Status: Active Sprint (Architecture Approved)*
 
-- [ ] **2.1 Role Persona Clustering (Vector Mapping)**
-  - [ ] Categorize target roles into 4 core architectural archetypes: Systems/Backend, AI/ML & GenAI, Data Platform, Cloud/DevOps
-  - [ ] Embed candidate project catalog into vector space for automated relevance re-ranking
-  - [ ] *Worktree Experiment A*: Local FastEmbed / sentence-transformers
-  - [ ] *Worktree Experiment B*: Dockerized Qdrant / pgvector
-- [ ] **2.2 Deterministic Semantic Claim Linter**
+- [x] **1.0 Database Architecture (Neon Serverless PostgreSQL + `pgvector`)**
+  - [x] Dual-connection design: pooled HTTP (`DATABASE_URL`) for Next.js and unpooled direct (`DATABASE_URL_UNPOOLED`) for Python
+  - [x] Authored DDL schema: [`apps/data/db/schema.sql`](file:///g:/My%20Drive/AntigravityProjects/Career/apps/data/db/schema.sql) with HNSW vector index
+  - [x] Authored idempotent mock seed & smoke tests: [`apps/data/db/seed_mock.sql`](file:///g:/My%20Drive/AntigravityProjects/Career/apps/data/db/seed_mock.sql)
+  - [x] Authored rationale documentation: [`docs/DATABASE_ARCHITECTURE.md`](file:///g:/My%20Drive/AntigravityProjects/Career/docs/DATABASE_ARCHITECTURE.md)
+- [ ] **1.1 Web Application Setup (`apps/frontend`)**
+  - [ ] Next.js 15 (App Router) + React 19 + TypeScript + Tailwind CSS + Shadcn UI
+  - [ ] Shared Neon pooled database client ([`apps/frontend/lib/db.ts`](file:///g:/My%20Drive/AntigravityProjects/Career/apps/frontend/lib/db.ts))
+  - [ ] Developer-only testing playground route (`/dev/chat-test`)
+- [ ] **1.2 Ingestion Pipeline Adaptation (`apps/data/scrapers`)**
+  - [ ] Direct Neon PostgreSQL bulk upsert adapter (`apps/data/scrapers/db_loader.py`)
+  - [ ] Multi-archetype keyword clustering (Systems/Backend, AI/ML & GenAI, Data Platform, Cloud/DevOps)
+- [ ] **1.3 Role Persona Clustering (Vector Mapping)**
+  - [ ] Embed candidate project catalog into 1536-dim vector space for relevance re-ranking via `pgvector`
+- [ ] **1.4 Deterministic Semantic Claim Linter**
   - [ ] Linter checks candidate bullets against job posting priorities
   - [ ] Prompts candidate to quantify claims: throughput (QPS/RPS), latency (p99/ms), and data scale (GB/TB)
-- [ ] **2.3 Differential Resume Compilation**
-  - [ ] *Worktree Experiment A (`feature/resume-typst`)*: Typst compiler producing ATS-verified single-page vector PDFs
-  - [ ] *Worktree Experiment B (`feature/resume-html-pdf`)*: Tailwind/HTML templates rendered via Headless Chromium
+- [ ] **1.5 Differential Resume Compilation**
+  - [ ] Single-page ATS-verified vector PDF generator (Typst compiler or Tailwind-to-PDF)
 
 ---
 

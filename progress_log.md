@@ -48,7 +48,23 @@
   - Streamlined `AGENTS.md` (and synced `GEMINI.md`/`CLAUDE.md`) to focus on core operating rules, engineering workflow, project structure, project history, and explicit quickstart instructions requiring new agent conversations to start by reading [`progress_log.md`](file:///g:/My%20Drive/AntigravityProjects/Career/progress_log.md).
 - **Immediate Next Phase**: Complete Phase 0 scraper research and proceed to Module 1 (Resume Builder) & Web Dashboard data contracts.
 
+---
 
-
-
-
+## Sprint 2: Module 1 Architecture, Neon Database & Next.js Monorepo Transition
+- **Timestamp**: 2026-09-14 19:30
+- **Lead Developer & Product Manager**: Neftali
+- **Status**: Architecture Approved & Blueprint Synchronized
+- **Active Decisions & Milestones**:
+  - [x] **Database Formalized (Neon Serverless PostgreSQL + `pgvector`)**:
+    - Decided on **Neon Serverless PostgreSQL** with `pgvector` extension.
+    - Updated [`directives/research/TECH_STACK.md`](file:///g:/My%20Drive/AntigravityProjects/Career/directives/research/TECH_STACK.md) and [`directives/research/ARCHITECTURAL_DECISION_RECORDS.md`](file:///g:/My%20Drive/AntigravityProjects/Career/directives/research/ARCHITECTURAL_DECISION_RECORDS.md) (ADR-003).
+    - Established strict dual-connection contract:
+      - `DATABASE_URL` (Pooled): Next.js API routes & TypeScript via `@neondatabase/serverless`.
+      - `DATABASE_URL_UNPOOLED` (Direct): Python ETL workers & DDL schema migrations via `psycopg`.
+    - Created [`docs/DATABASE_ARCHITECTURE.md`](file:///g:/My%20Drive/AntigravityProjects/Career/docs/DATABASE_ARCHITECTURE.md), DDL schema [`apps/data/db/schema.sql`](file:///g:/My%20Drive/AntigravityProjects/Career/apps/data/db/schema.sql), and idempotent mock seed with smoke tests [`apps/data/db/seed_mock.sql`](file:///g:/My%20Drive/AntigravityProjects/Career/apps/data/db/seed_mock.sql).
+    - Updated [`.env.example`](file:///g:/My%20Drive/AntigravityProjects/Career/.env.example) with pooled and unpooled Neon connection templates.
+  - [x] **Frontend Stack Confirmed**:
+    - **Next.js 15 (App Router) + React 19 + TypeScript + Tailwind CSS + Shadcn UI**.
+    - Clarified React vs. Tailwind vs. Shadcn UI synergy.
+    - Monorepo structure defined: `apps/frontend` (Next.js studio with hidden `/dev/chat-test` dev route) and `apps/data` (Python scrapers & db).
+  - [ ] **Node.js Environment Setup**: Initiated `winget install OpenJS.NodeJS.LTS -e` to prepare local environment for Next.js scaffolding.
