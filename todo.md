@@ -25,17 +25,42 @@
 - [x] **0.4 Daily Morning Notification Dispatcher (Prototype)**
   - [x] Responsive HTML email digest with Top 10 positions and 1-click apply links
   - [x] Free native Gmail SMTP (`smtp.gmail.com:587`) + Resend API integration
-- [ ] **0.5 [Issue 1] Web Prototype: Live <24hr Job Board, Qualification Summaries, Active Links & Email Digest**
-  - [ ] Filter and display live tech entry-level and internships posted within the last 24 hours
-  - [ ] 2-3 bullet rough qualification and description summary with matched/missing skill tags
-  - [ ] Automated background pruning: only confirmed active 200 OK links displayed (ATS, Indeed, LinkedIn)
-  - [ ] Email dispatch form: enter an email to immediately send job digest
-  - [ ] Checkbox option: *"Send me fresh verified jobs every 24 hours"*
-- [ ] **0.6 [Issue 2] Neon DB Subscriber Registry, Unsubscribe Routing & Scraper Direct Sync**
-  - [ ] Add `job_subscribers` table to Neon DB (`apps/data/db/schema.sql`) for tracking email, frequency, and tokens
-  - [ ] Unsubscribe / opt-out endpoint and form to stop emails by address
-  - [ ] Automated 24h daily runner script to query <24h listings and send digest to active subscribers
-  - [ ] Scraper pipeline update: direct bulk upsert into Neon DB and sync to `apps/frontend/public/data/jobs.json`
+
+---
+
+### 📋 Phase 0 Master Implementation Plan: Milestone 0 Issues
+
+> **Owner**: Neftali (Product Manager) | **Engineer**: AI Agent  
+> **Milestone**: `Phase 0: Prototyping, Research & Direct ATS Ingestion Pipeline`  
+
+#### 📌 Issue 1: Web Prototype Job Feed (<24hr Listings, Verified Links & Email Dispatch)
+- **Title**: `feat(web): interactive job feed with <24hr filter, qualifications summary, verified links & email digest dispatch`
+- **Scope & What We Want**:
+  - [ ] **1. Live <24hr Job Feed**:
+    - [ ] Display technical entry-level roles and internships discovered within the last 24 hours.
+    - [ ] Include title, company, location, role category badge (`Systems/Backend`, `AI/ML`, `Data Platform`), match score percentage, and age badge (`<24h ago`).
+  - [ ] **2. Rough Qualifications & Description Summary**:
+    - [ ] Extract and present a concise 2–3 bullet summary of core requirements (languages, tools, graduation window).
+    - [ ] Visual indicators for matched skills vs. missing skills compared against the candidate persona.
+  - [ ] **3. Verified Live Direct Links (ATS, Indeed, LinkedIn)**:
+    - [ ] Automated background pruning: validate links with 5-worker concurrent engine before display, eliminating 404s, 410s, and closed requisition redirects.
+    - [ ] Direct 1-click apply button opening authentic requisition page.
+  - [ ] **4. Email Dispatch Modal & Form**:
+    - [ ] User enters email address to immediately receive the curated <24hr job list in their inbox.
+    - [ ] Option toggle / checkbox: *"Send me fresh verified jobs every 24 hours"*.
+
+#### 📌 Issue 2: Neon DB Subscriber Registry, Unsubscribe Routing & Scraper Direct Sync
+- **Title**: `feat(pipeline): Neon DB subscriber registry, automated daily digest runner & direct database sync`
+- **Scope & What We Want**:
+  - [x] **1. Subscriber Table in Neon DB**:
+    - [x] Added `job_subscribers` table to [`apps/data/db/schema.sql`](file:///g:/My%20Drive/AntigravityProjects/Career/apps/data/db/schema.sql) (`email`, `frequency`, `is_active`, `target_metro`, `unsubscribe_token`, `last_notified_at`).
+  - [ ] **2. Unsubscribe / Opt-Out Endpoint & UI**:
+    - [ ] Provide clean route `/api/subscribe/unsubscribe?token=...` and UI form to stop emails by entering email address.
+  - [ ] **3. Automated 24h Daily Email Runner**:
+    - [ ] Python/Serverless runner script to query verified <24hr jobs and dispatch formatted HTML digest to all active subscribers.
+  - [ ] **4. Scraper Direct Upsert Pipeline (`apps/data/scrapers`)**:
+    - [ ] Connect harvester to Neon PostgreSQL via unpooled client (`apps/data/scrapers/db_loader.py`).
+    - [ ] Automatic dual-output: direct Neon DB persistence + sync to `apps/frontend/public/data/jobs.json` for instant static client rendering.
 
 ---
 
