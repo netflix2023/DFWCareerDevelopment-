@@ -149,6 +149,52 @@ Once the PM provides answers:
 
 ---
 
+## 3.2 System Architecture & Product Validation Protocol
+
+Unit tests prove syntax and isolated logic, but they **do not prove product integrity**. Before declaring any module or feature complete, the Engineer must pass three mandatory validation gates:
+
+### Gate 1: Tracer Bullet / Smoke Test
+* Provide a minimal end-to-end executable test demonstrating that live data travels un-mocked across all layers:  
+  $$\text{Input Source (Direct ATS/Feeds)} \longrightarrow \text{Processing \& Normalization} \longrightarrow \text{Storage (Neon DB)} \longrightarrow \text{Consumer (Web/Digest)}$$
+* Mocks are strictly forbidden for Gate 1 validation.
+
+### Gate 2: Boundary & Contract Verification
+* Verify API contracts, DDL schema alignment, and runtime constraints:
+  - Dual connection validation: verify serverless HTTP (`DATABASE_URL`) vs. direct TCP (`DATABASE_URL_UNPOOLED`).
+  - JSON schema compatibility between Python ingest output and Next.js frontend consumer components.
+
+### Gate 3: PM Acceptance Walkthrough
+For every completed feature, the Engineer must present:
+1. **Reproduction Command / Route**: Exact CLI command or local URL (e.g. `http://localhost:3000/dev/chat-test`).
+2. **Concrete Output Preview**: Raw JSON sample, terminal output snippet, or UI screenshot/layout verification.
+3. **Edge-Case Summary**: Explicit description of behavior on network drop, empty database state, or malformed input.
+
+### Definition of Architectural "Done"
+* A task is **NEVER marked Done** simply because unit tests pass.
+* A task is **Done** ONLY when:
+  1. The end-to-end tracer bullet runs cleanly in the live environment.
+  2. All boundary contracts are verified without runtime warnings.
+  3. The Product Manager (Neftali) explicitly reviews and accepts the walkthrough.
+
+---
+
+## 3.3 KISS, Anti-Bloat & Documentation Standards
+
+* **Zero Fluff & Minimal Comments**:
+  - No obvious comments (e.g., `# set x to y` or verbose boilerplate docstrings).
+  - Code must be self-documenting through clean variable and function names.
+  - Add comments **ONLY** when documenting unintuitive edge cases, bug workarounds, or regulatory limits.
+* **Concise Technical Markdown**:
+  - Use compact tables, short bulleted lists, and direct code blocks.
+  - Eliminate marketing intros, conversational pleasantries, and robotic fillers.
+* **Two-Stage Architectural Recording Protocol**:
+  1. **High-Level Rationale $\longrightarrow$ ADR** ([`directives/research/ARCHITECTURAL_DECISION_RECORDS.md`](file:///g:/My%20Drive/AntigravityProjects/Career/directives/research/ARCHITECTURAL_DECISION_RECORDS.md)): Record the *Why*, architectural trade-offs, and final decision.
+  2. **Low-Level Implementation $\longrightarrow$ Tech Stack** ([`directives/research/TECH_STACK.md`](file:///g:/My%20Drive/AntigravityProjects/Career/directives/research/TECH_STACK.md)): Detail exact package versions, connection parameters, client snippets, and file paths.
+* **Central Skill Catalog**:
+  - All repeatable CLI workflows and slash commands live in [`directives/SKILLS.md`](file:///g:/My%20Drive/AntigravityProjects/Career/directives/SKILLS.md) (`/discover`, `/tracer-bullet`, `/smoke-test`, `/sync-db`, `/lint-claims`, `/gh-tokenless`).
+
+---
+
 ## 4. Storage, Git Worktree & Branching Architecture
 
 ### A. Core Storage & Sync Model
