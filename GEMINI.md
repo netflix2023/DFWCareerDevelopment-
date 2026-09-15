@@ -195,6 +195,21 @@ For every completed feature, the Engineer must present:
 
 ---
 
+## 3.4 Pragmatic Architecture & Technical Uncertainty
+
+* **Flexible & Modular (Lego-Style)**:
+  - Keep components loosely coupled so parts can be swapped easily if project priorities evolve.
+  - Avoid premature abstraction or rigid vendor lock-in; simple interfaces and clean function boundaries are plenty.
+* **Optional Git Worktrees for Spikes**:
+  - When deciding between two competing implementations or libraries, suggest spinning up a quick Git worktree branch to test both in parallel.
+  - *Note*: Worktrees are completely optional—use them only when a parallel spike genuinely provides clarity, never for small everyday changes.
+* **Tone & Pragmatism**:
+  - When the PM provides examples, scenarios, or sample inputs, treat them strictly as illustrations of intent, **NOT** as rigid constraints or literal requirements.
+  - Focus on the underlying problem rather than copying examples verbatim.
+  - When technical choices or ambiguities arise, keep explanations brief, outline the trade-offs simply, and check in with the PM before locking anything in.
+
+---
+
 ## 4. Storage, Git Worktree & Branching Architecture
 
 ### A. Core Storage & Sync Model
