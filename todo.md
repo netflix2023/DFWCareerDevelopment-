@@ -33,8 +33,8 @@
 > **Owner**: Neftali (Product Manager) | **Engineer**: AI Agent  
 > **Milestone**: `Phase 0: Prototyping, Research & Direct ATS Ingestion Pipeline`  
 
-#### 📌 Issue 1: Web Prototype Job Feed (<24hr Listings, Verified Links & Email Dispatch)
-- **Title**: `feat(web): interactive job feed with <24hr filter, qualifications summary, verified links & email digest dispatch`
+#### 📌 Issue #1: Web Prototype Job Feed (<24hr Listings, Verified Links & Email Dispatch)
+- **GitHub Issue**: [#1: feat(web): interactive job feed with <24hr filter, qualifications summary, verified links & email digest dispatch](https://github.com/netflix2023/DFWCareerDevelopment-/issues/1)
 - **Scope & What We Want**:
   - [ ] **1. Live <24hr Job Feed**:
     - [ ] Display technical entry-level roles and internships discovered within the last 24 hours.
@@ -49,8 +49,8 @@
     - [ ] User enters email address to immediately receive the curated <24hr job list in their inbox.
     - [ ] Option toggle / checkbox: *"Send me fresh verified jobs every 24 hours"*.
 
-#### 📌 Issue 2: Neon DB Subscriber Registry, Unsubscribe Routing & Scraper Direct Sync
-- **Title**: `feat(pipeline): Neon DB subscriber registry, automated daily digest runner & direct database sync`
+#### 📌 Issue #2: Neon DB Subscriber Registry, Unsubscribe Routing & Scraper Direct Sync
+- **GitHub Issue**: [#2: feat(pipeline): Neon DB subscriber registry, automated daily digest runner & direct database sync](https://github.com/netflix2023/DFWCareerDevelopment-/issues/2)
 - **Scope & What We Want**:
   - [x] **1. Subscriber Table in Neon DB**:
     - [x] Added `job_subscribers` table to [`apps/data/db/schema.sql`](file:///g:/My%20Drive/AntigravityProjects/Career/apps/data/db/schema.sql) (`email`, `frequency`, `is_active`, `target_metro`, `unsubscribe_token`, `last_notified_at`).
