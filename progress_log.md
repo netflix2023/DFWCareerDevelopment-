@@ -67,4 +67,8 @@
     - **Next.js 15 (App Router) + React 19 + TypeScript + Tailwind CSS + Shadcn UI**.
     - Clarified React vs. Tailwind vs. Shadcn UI synergy.
     - Monorepo structure defined: `apps/frontend` (Next.js studio with hidden `/dev/chat-test` dev route) and `apps/data` (Python scrapers & db).
-  - [ ] **Node.js Environment Setup**: Initiated `winget install OpenJS.NodeJS.LTS -e` to prepare local environment for Next.js scaffolding.
+  - [x] **Node.js Environment Setup**: Successfully installed Node.js LTS (v24.19.0) and npm (v11.17.0).
+  - [x] **Milestone 0 Issues Scoped & Formalized**:
+    - **Issue 1**: Web Prototype Job Feed (<24hr Listings, Qualifications Summary, Active Link Pruning & Email Digest Dispatch).
+    - **Issue 2**: Neon DB Subscriber Registry (`job_subscribers`), Unsubscribe Routing & Scraper Direct Sync.
+    - Updated [`todo.md`](file:///g:/My%20Drive/AntigravityProjects/Career/todo.md), [`apps/data/db/schema.sql`](file:///g:/My%20Drive/AntigravityProjects/Career/apps/data/db/schema.sql), and [`implementation_plan.md`](file:///C:/Users/neftali/.gemini/antigravity-ide/brain/45e83b63-20ca-429d-b761-89dbd2f0b982/implementation_plan.md).

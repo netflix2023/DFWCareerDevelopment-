@@ -25,6 +25,17 @@
 - [x] **0.4 Daily Morning Notification Dispatcher (Prototype)**
   - [x] Responsive HTML email digest with Top 10 positions and 1-click apply links
   - [x] Free native Gmail SMTP (`smtp.gmail.com:587`) + Resend API integration
+- [ ] **0.5 [Issue 1] Web Prototype: Live <24hr Job Board, Qualification Summaries, Active Links & Email Digest**
+  - [ ] Filter and display live tech entry-level and internships posted within the last 24 hours
+  - [ ] 2-3 bullet rough qualification and description summary with matched/missing skill tags
+  - [ ] Automated background pruning: only confirmed active 200 OK links displayed (ATS, Indeed, LinkedIn)
+  - [ ] Email dispatch form: enter an email to immediately send job digest
+  - [ ] Checkbox option: *"Send me fresh verified jobs every 24 hours"*
+- [ ] **0.6 [Issue 2] Neon DB Subscriber Registry, Unsubscribe Routing & Scraper Direct Sync**
+  - [ ] Add `job_subscribers` table to Neon DB (`apps/data/db/schema.sql`) for tracking email, frequency, and tokens
+  - [ ] Unsubscribe / opt-out endpoint and form to stop emails by address
+  - [ ] Automated 24h daily runner script to query <24h listings and send digest to active subscribers
+  - [ ] Scraper pipeline update: direct bulk upsert into Neon DB and sync to `apps/frontend/public/data/jobs.json`
 
 ---
 

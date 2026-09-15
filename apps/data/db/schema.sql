@@ -80,3 +80,19 @@ CREATE TABLE IF NOT EXISTS applications (
 );
 
 CREATE INDEX IF NOT EXISTS idx_applications_status ON applications(status);
+
+-- 5. Job Subscribers Table (Issue 1 & 2: Email Alert Subscriptions)
+CREATE TABLE IF NOT EXISTS job_subscribers (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    frequency VARCHAR(32) DEFAULT 'daily_24h', -- 'instant', 'daily_24h', 'weekly'
+    is_active BOOLEAN DEFAULT TRUE,
+    target_metro VARCHAR(64) DEFAULT 'DFW',
+    unsubscribe_token VARCHAR(64) NOT NULL,
+    last_notified_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_subscribers_active ON job_subscribers(is_active);
+CREATE INDEX IF NOT EXISTS idx_subscribers_email ON job_subscribers(email);
