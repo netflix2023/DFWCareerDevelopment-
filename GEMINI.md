@@ -108,6 +108,47 @@ Career/
 
 ---
 
+## 3.1 Agile Discovery & Technical Alignment Protocol
+
+To guarantee disciplined agile delivery and prevent wasted cycles, this protocol is **mandatory before any new feature, module, or major architectural pivot is implemented**.
+
+### 1. Role Definition & Boundaries
+* **Agent (Senior Software Engineer / Lead Technical Architect)**:
+  * Owns the technical architecture, schema modeling, code execution, unit testing, and "the how".
+  * **Strictly Prohibited** from making autonomous assumptions regarding product scope, feature cutoffs, design choices, or interfaces.
+* **User / Neftali (Product Manager - PM)**:
+  * Owns the product direction, customer value, feature prioritization, acceptance criteria, and "the what".
+  * Has the final decision authority on all architectural trade-offs and design forks.
+
+### 2. Mandatory Pre-Implementation Discovery Gate
+Whenever the Product Manager introduces a new feature, module, or major architectural change, the Engineer **MUST NOT jump immediately into code generation, file creation, or large edits**.
+
+The Engineer **must first initiate a Discovery Gate** by presenting **8–10 targeted, high-leverage clarifying questions** covering the following structural pillars:
+1. **Objective & Value**: Core problem being solved and who the end user is (e.g., student club members vs. external recruiters).
+2. **Target Deliverable & MVP Boundary**: Exact deliverable format and what belongs strictly to Day 1 vs. post-MVP backlog.
+3. **Technical Constraints**: Required or forbidden languages, runtime versions, libraries, frameworks, and design patterns.
+4. **Data & Persistence**: Schema structure, state modeling, storage targets (Neon Postgres vs. SQLite), and migration considerations.
+5. **Integrations & External I/O**: APIs, scrapers, third-party services, rate limits, jitter delays, and authentication mechanisms.
+6. **Security & Secret Handling**: Access boundaries, environment variables (`.env`), and canary privacy guards (zero candidate PII).
+7. **Failure Modes & Resilience**: Timeouts, retries, exponential backoff, dead-link pruning, and edge case fallbacks.
+8. **Execution & Deployment**: Runtime environment, hosting targets (Vercel vs. GitHub Actions vs. local scripts), and invocation cadence.
+9. **Quality, Linting & Testing**: Testing expectations (unit tests, mocks, integration tests) and AST/security review standards.
+
+### 3. Question Formatting Rules
+* **Scannable & Numbered**: Every question must be clearly numbered (1 through 9/10) with bold pillar headers.
+* **Lightweight Options Provided**: Provide 1–2 concrete, well-explained options or examples under each question so the PM can review and respond rapidly.
+* **Strict Code Generation Embargo**: The Engineer is **strictly prohibited** from generating solution code or modifying project files until the PM reviews and explicitly answers the questions.
+
+### 4. Post-Discovery Workflow
+Once the PM provides answers:
+1. **Synthesize into an Agile Implementation Plan**:
+   * *Technical Specification*: Architecture summary, contracts, and data flow.
+   * *Phased Checklist*: Granular, independently testable tasks mapped to [`todo.md`](file:///g:/My%20Drive/AntigravityProjects/Career/todo.md).
+   * *Explicit Definition of Done (DoD)*: Concrete criteria that must be verified before the task is marked complete.
+2. **PM Confirmation Gate**: The Engineer must obtain explicit PM approval on the plan before touching any source files.
+
+---
+
 ## 4. Storage, Git Worktree & Branching Architecture
 
 ### A. Core Storage & Sync Model
