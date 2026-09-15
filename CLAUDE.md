@@ -139,6 +139,31 @@ When developing separate implementation paths or competing technical experiments
   git worktree remove ../Career-web
   ```
 
+### C. Tokenless GitHub CLI/API Automation via Git Credential Manager
+When automating GitHub tasks (creating milestones, opening issues, querying releases) without manually generating or hardcoding personal access tokens in `.env`:
+* **The Technique**: Use Git's internal credential helper (`git credential fill`) to securely borrow the active GitHub OAuth session token stored in Windows Credential Manager:
+  ```bash
+  # Query the system Git Credential Manager for the active GitHub OAuth token
+  echo "protocol=https`nhost=github.com" | git credential fill
+  ```
+* **Python Automation Recipe**:
+  ```python
+  import subprocess, urllib.request, json
+
+  # 1. Fetch token from Windows Git Credential Manager
+  p = subprocess.Popen(["git", "credential", "fill"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+  stdout, _ = p.communicate(input="protocol=https\nhost=github.com\n")
+  token = next(line.split("password=", 1)[1].strip() for line in stdout.splitlines() if line.startswith("password="))
+
+  # 2. Authenticate REST call to GitHub API
+  headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json", "User-Agent": "Agent-CLI"}
+  data = json.dumps({"title": "Phase 0: Prototyping & Ingestion", "state": "open"}).encode("utf-8")
+  req = urllib.request.Request("https://api.github.com/repos/netflix2023/DFWCareerDevelopment-/milestones", data=data, headers=headers, method="POST")
+  with urllib.request.urlopen(req) as resp:
+      print("Created:", json.loads(resp.read().decode("utf-8"))["title"])
+  ```
+* **Benefits**: Works out-of-the-box without requiring `gh` CLI installation or manual token management, keeping `.env` completely free of sensitive GitHub tokens.
+
 ---
 
 ## 5. Anti-Hallucination & Anti-Scraping Guards
