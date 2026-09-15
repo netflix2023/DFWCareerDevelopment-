@@ -43,7 +43,9 @@
   - Verified all 11/11 unit tests and 15/15 CodeRabbit security/AST review checks pass cleanly.
 - [x] **Milestone Realignment & Status Clarification**:
   - Reopened and updated GitHub Milestone #1 to: `Phase 0: Prototyping, Research & Direct ATS Ingestion Pipeline` (Status: In Progress).
-  - Clarified across `todo.md`, `README.md`, and GitHub Milestones that the scraper prototype is actively in progress under Phase 0 research, not a closed finished state.
+- [x] **Agent Manual & Context Refactoring**:
+  - Delegated tech stack details and candidate proposals from `AGENTS.md` to [`directives/research/TECH_STACK.md`](file:///g:/My%20Drive/AntigravityProjects/Career/directives/research/TECH_STACK.md).
+  - Streamlined `AGENTS.md` (and synced `GEMINI.md`/`CLAUDE.md`) to focus on core operating rules, engineering workflow, project structure, project history, and explicit quickstart instructions requiring new agent conversations to start by reading [`progress_log.md`](file:///g:/My%20Drive/AntigravityProjects/Career/progress_log.md).
 - **Immediate Next Phase**: Complete Phase 0 scraper research and proceed to Module 1 (Resume Builder) & Web Dashboard data contracts.
 
 
