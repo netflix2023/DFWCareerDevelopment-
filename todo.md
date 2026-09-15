@@ -8,20 +8,21 @@
 
 ## Master Architecture: The 4 Core Modules
 
-### 🟢 Module 1: Direct ATS Ingestion, Rate-Limiting & Notifications
-*Status: Completed & Verified (Preserved in Git release tag `v0.1.0-prototype`)*
+### 🟡 Phase 0: Prototyping, Research & Ingestion Pipeline (Active Sprint)
+*Status: In Progress (Active Prototyping & Scraper Research)*
 
-- [x] **1.1 Canonical Normalization & Deduplication**
+- [x] **0.1 Canonical Normalization & Deduplication (Prototype)**
   - [x] Workday requisition regex extraction (`f"{company}::{requisition_id}"`) and secondary URL merging
   - [x] Subdomain brand resolution fallback for arrow (`↳`) or empty strings
   - [x] Multi-location blob cleaning to `"Dallas, TX (Multi-Location)"`
-- [x] **1.2 High-Throughput Ingestion & Rate-Limiting Protocol**
-  - [x] Unauthenticated guest scraping mode (zero personal cookies, batch 25–50 listings, jitter delays 2–5s)
-  - [x] Stream ingestion across active internship boards with exponential backoff
-- [x] **1.3 Live Link Health & Verification**
+- [ ] **0.2 Scraper Prototyping & High-Throughput Research (In Progress)**
+  - [x] Direct markdown feed harvester prototype (`execution/prototype/scrapers/pipeline.py`)
+  - [ ] Unauthenticated guest scraper testing (LinkedIn guest API, Indeed aggregator, JobSpy evaluation)
+  - [ ] Rate-limiting queues & jitter backoff calibration
+- [x] **0.3 Live Link Health & Verification (Prototype)**
   - [x] 5-worker concurrent validator (`ThreadPoolExecutor`) with HEAD-then-GET check (5s timeout)
   - [x] Pruning of 404s, 410s, and closed requisition redirects
-- [x] **1.4 Daily Morning Notification Dispatcher**
+- [x] **0.4 Daily Morning Notification Dispatcher (Prototype)**
   - [x] Responsive HTML email digest with Top 10 positions and 1-click apply links
   - [x] Free native Gmail SMTP (`smtp.gmail.com:587`) + Resend API integration
 

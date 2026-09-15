@@ -58,10 +58,10 @@ flowchart TD
 ### Module Overview
 | Module | Focus Area | Status | Tech Stack |
 |---|---|---|---|
-| **Module 1** | Direct ATS Ingestion & Notifications | 🟢 **Completed** (`v0.1.0-prototype`) | Python Asyncio, HTTP REST, SQLite, Gmail SMTP |
-| **Module 2** | Resume Builder & Persona Matcher | 🟡 **Active Sprint** | Typst CLI, FastEmbed, Vector Clustering |
-| **Module 3** | Smart Apply & Custom Question RAG | ⚪ Upcoming Phase | Manifest V3 Extension / React 19 + TypeScript, LangChain |
-| **Module 4** | DFW Market Intelligence & Trends | ⚪ Upcoming Phase | Pandas, SQL Analytics, Telemetry Tracker |
+| **Phase 0** | Prototyping, Research & Ingestion Pipeline | 🟡 **In Progress (Active Sprint)** | Python Asyncio, REST, SQLite, Gmail SMTP |
+| **Module 1** | Resume Builder & Persona Matcher | ⚪ Upcoming Phase | Typst CLI, FastEmbed, Vector Clustering |
+| **Module 2** | Smart Apply & Custom Question RAG | ⚪ Upcoming Phase | Manifest V3 Extension / React 19 + TypeScript, LangChain |
+| **Module 3** | DFW Market Intelligence & Trends | ⚪ Upcoming Phase | Pandas, SQL Analytics, Telemetry Tracker |
 
 ---
 

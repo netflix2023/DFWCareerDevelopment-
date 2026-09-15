@@ -41,8 +41,10 @@
   - Removed redundant `docs/` folder.
   - Updated all Python relative imports and root directory traversal paths (`sys.path.insert` and `DEFAULT_DB_PATH`).
   - Verified all 11/11 unit tests and 15/15 CodeRabbit security/AST review checks pass cleanly.
-  - Updated `README.md` quickstart instructions to `python execution/prototype/scrapers/pipeline.py`.
-- **Immediate Next Phase**: Detailed design specifications for Module 2 (Multi-Persona Resume Engine) & Web Dashboard data contracts.
+- [x] **Milestone Realignment & Status Clarification**:
+  - Reopened and updated GitHub Milestone #1 to: `Phase 0: Prototyping, Research & Direct ATS Ingestion Pipeline` (Status: In Progress).
+  - Clarified across `todo.md`, `README.md`, and GitHub Milestones that the scraper prototype is actively in progress under Phase 0 research, not a closed finished state.
+- **Immediate Next Phase**: Complete Phase 0 scraper research and proceed to Module 1 (Resume Builder) & Web Dashboard data contracts.
 
 
 
