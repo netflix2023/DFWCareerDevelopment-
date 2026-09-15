@@ -139,30 +139,26 @@ When developing separate implementation paths or competing technical experiments
   git worktree remove ../Career-web
   ```
 
-### C. Tokenless GitHub CLI/API Automation via Git Credential Manager
-When automating GitHub tasks (creating milestones, opening issues, querying releases) without manually generating or hardcoding personal access tokens in `.env`:
-* **The Technique**: Use Git's internal credential helper (`git credential fill`) to securely borrow the active GitHub OAuth session token stored in Windows Credential Manager:
-  ```bash
-  # Query the system Git Credential Manager for the active GitHub OAuth token
-  echo "protocol=https`nhost=github.com" | git credential fill
+### C. Tokenless GitHub CLI (`gh`) Automation via Git Credential Manager
+When automating GitHub tasks (creating milestones, opening issues, querying releases, closing PRs) without manually generating or hardcoding personal access tokens in `.env`:
+* **The Technique**: Use Git's internal credential helper (`git credential fill`) to borrow the active GitHub OAuth session token directly into `$env:GH_TOKEN` in a single PowerShell command, completely eliminating Python scripts:
+  ```powershell
+  # One-Liner Pattern: Borrow active credential and execute GitHub CLI command
+  $cred = "protocol=https`nhost=github.com" | git credential fill; $env:GH_TOKEN = ($cred | Select-String "password=(.*)").Matches.Groups[1].Value; gh <command>
   ```
-* **Python Automation Recipe**:
-  ```python
-  import subprocess, urllib.request, json
+* **Skill Reference**: Defined in workspace skill [`.agents/skills/github-cli-tokenless/SKILL.md`](file:///g:/My%20Drive/AntigravityProjects/Career/.agents/skills/github-cli-tokenless/SKILL.md).
+* **PowerShell CLI Examples**:
+  ```powershell
+  # 1. List repository issues:
+  $cred = "protocol=https`nhost=github.com" | git credential fill; $env:GH_TOKEN = ($cred | Select-String "password=(.*)").Matches.Groups[1].Value; gh issue list --repo netflix2023/DFWCareerDevelopment-
 
-  # 1. Fetch token from Windows Git Credential Manager
-  p = subprocess.Popen(["git", "credential", "fill"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
-  stdout, _ = p.communicate(input="protocol=https\nhost=github.com\n")
-  token = next(line.split("password=", 1)[1].strip() for line in stdout.splitlines() if line.startswith("password="))
+  # 2. Create an issue attached to a milestone:
+  $cred = "protocol=https`nhost=github.com" | git credential fill; $env:GH_TOKEN = ($cred | Select-String "password=(.*)").Matches.Groups[1].Value; gh issue create --repo netflix2023/DFWCareerDevelopment- --title "feat: my title" --body "My body" --milestone "Phase 0: Prototyping, Research & Direct ATS Ingestion Pipeline" --label "enhancement"
 
-  # 2. Authenticate REST call to GitHub API
-  headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json", "User-Agent": "Agent-CLI"}
-  data = json.dumps({"title": "Phase 0: Prototyping & Ingestion", "state": "open"}).encode("utf-8")
-  req = urllib.request.Request("https://api.github.com/repos/netflix2023/DFWCareerDevelopment-/milestones", data=data, headers=headers, method="POST")
-  with urllib.request.urlopen(req) as resp:
-      print("Created:", json.loads(resp.read().decode("utf-8"))["title"])
+  # 3. Create or query milestones via GitHub API CLI:
+  $cred = "protocol=https`nhost=github.com" | git credential fill; $env:GH_TOKEN = ($cred | Select-String "password=(.*)").Matches.Groups[1].Value; gh api repos/netflix2023/DFWCareerDevelopment-/milestones -f title="Phase 1" -f state="open"
   ```
-* **Benefits**: Works out-of-the-box without requiring `gh` CLI installation or manual token management, keeping `.env` completely free of sensitive GitHub tokens.
+* **Benefits**: Pure native CLI, zero Python scripts required, zero credentials written to disk.
 
 ---
 
